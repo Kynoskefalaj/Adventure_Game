@@ -22,6 +22,7 @@ public class Main {
     boolean key;
     boolean leatherArmor;
     boolean gem;
+    boolean goblinAlive;
     int playerCoins;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
@@ -195,6 +196,7 @@ public class Main {
     public void monstersSetup(){
         goblinHP = 20;
         goblinPower = 10;
+        goblinAlive = true;
     }
 
     public class TitleScreenHandler implements ActionListener{
@@ -275,7 +277,12 @@ public class Main {
 
                 case "theCave":
                     switch (yourChoice){
-                        case "c1": goblin(); break;
+                        case "c1":
+                            if (goblinAlive){
+                                goblin();
+                            } else {
+                                goblinDown();
+                            } break;
                         case "c2": river(); break;
                         case "c3": giantTree(); break;
                         case "c4": crossroads(); break;
@@ -283,10 +290,67 @@ public class Main {
 
                 case "goblin":
                     switch (yourChoice){
+                        case "c1":
+                            if (isPlayerAlive()){
+                                goblinAttack();
+                            } else {
+                                death();
+                            } break;
+                        case "c2":
+                            if (isGoblinAlive()){
+                                playerAttacksGoblin();
+                            } else {
+                                goblinDown();
+                            } break;
+                        case "c3": theCave(); break;
+                        case "c4": giantRock(); break;
+                    } break;
+
+                case "goblinAttack":
+                    switch (yourChoice) {
+                        case "c1":
+                            if (isPlayerAlive()){
+                                goblinAttack();
+                            } else {
+                                death();
+                            } break;
+                        case "c2":
+                            if (isGoblinAlive()){
+                                playerAttacksGoblin();
+                            } else {
+                                goblinDown();
+                            } break;
+                        case "c3": theCave(); break;
+                        case "c4": giantRock(); break;
+                    } break;
+
+                case "playerAttacksGoblin":
+                    switch (yourChoice) {
+                        case "c1":
+                            if (isPlayerAlive()){
+                                goblinAttack();
+                            } else {
+                                death();
+                            } break;
+                        case "c2":
+                            if (isGoblinAlive()){
+                                playerAttacksGoblin();
+                                if (isPlayerAlive()) {
+                                    goblinAttack();
+                                } else {
+                                    death();
+                                }
+                            } else {
+                                goblinDown();
+                            } break;
+                        case "c3": theCave(); break;
+                        case "c4": giantRock(); break;
+                    } break;
+
+                case "giantRock":
+                    switch (yourChoice){
                         case "c1": goblin(); break;
-                        case "c2": river(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": crossroads(); break;
+                        case "c2": goblinDown(); break;
                     } break;
             }
 
@@ -400,8 +464,9 @@ public class Main {
 
     public void goblinAttack(){
         actualLocation = "goblin";
-        int goblinHit = new java.util.Random().nextInt(8);
-
+        int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(8));
+        playerHP -= goblinHit;
+        hpAmountLabel.setText("" + playerHP);
         mainTextArea.setText("Goblin attacks you with loud shout! \n" +
                 "You lost " + goblinHit + " health points." );
 
@@ -413,14 +478,29 @@ public class Main {
 
     public void playerAttacksGoblin(){
         actualLocation = "playerAttacksGoblin";
-        int goblinHit = new java.util.Random().nextInt(goblinPower);
+        int playerHit = new java.util.Random().nextInt(playerPower);
+        goblinHP -= playerHit;
 
-        mainTextArea.setText("Goblin attacks you with loud shout! \n" +
-                "You lost " + goblinHit + " health points." );
+        mainTextArea.setText("You attack your opponent with " + equippedWeapon + "\n" +
+                "Goblin lost " + "health points." );
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
         choice_3.setText("Run");
+        choice_4.setText("Climb on giant rock");
+    }
+
+    public void goblinDown(){
+        actualLocation = "goblinDown";
+        gem = true;
+        goblinAlive = false;
+
+        mainTextArea.setText("You beat this filthy creature! " + "" +
+                        "\n You obtained large shiny gem!");
+
+        choice_1.setText("Go to giant tree");
+        choice_2.setText("Go to the river bank");
+        choice_3.setText("Go out to the cave");
         choice_4.setText("Climb on giant rock");
     }
 
@@ -431,13 +511,13 @@ public class Main {
                 "You've found also a rope.");
         rope = true;
 
-        choice_1.setText("Try to comfort him");
-        choice_2.setText("Leap off");
+        choice_1.setText("Leap off");
         if (equippedWeapon == "shortBow"){
-            choice_3.setText("Attack");
+            choice_2.setText("Attack");
         }
         else
-            choice_3.setVisible(false);
+            choice_2.setVisible(false);
+        choice_3.setVisible(false);
         choice_4.setVisible(false);
     }
 
@@ -610,6 +690,17 @@ public class Main {
             return true;
         } else
             return false;
+    }
+
+    public boolean isGoblinAlive() {
+        if (goblinHP > 0){
+            return true;
+        } else
+            return false;
+    }
+
+    public void sleep() throws InterruptedException {
+        Thread.sleep(2000);
     }
 
 
