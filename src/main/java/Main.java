@@ -17,6 +17,7 @@ public class Main {
     int playerHP;
     String equippedWeapon;
     String actualLocation;
+    boolean rope = false;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -267,7 +268,27 @@ public class Main {
         if (equippedWeapon == "shortBow"){
             choice_3.setText("Attack");
         }
+        else
+            choice_3.setVisible(false);
         choice_4.setVisible(false);
+    }
+
+    public void giantTree(){
+        actualLocation = "giantTree";
+
+        mainTextArea.setText("That Tree is really huge. When you look up you \n" +
+                "see a treehouse hidden high in branches. You cannot reach it without rope.");
+
+        choice_1.setText("Go to the cave");
+        choice_2.setText("Go to the river");
+        choice_3.setText("Go to meadow");
+
+        if (rope == true){
+            choice_4.setVisible(true);
+            choice_4.setText("Climb up");
+        }
+        else
+            choice_4.setVisible(false);
     }
 
 
