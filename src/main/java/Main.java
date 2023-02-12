@@ -17,10 +17,11 @@ public class Main {
     int playerHP;
     String equippedWeapon;
     String actualLocation;
-    boolean rope = false;
-    boolean key = false;
-    boolean leatherArmor = false;
-    boolean gem = false;
+    boolean rope;
+    boolean key;
+    boolean leatherArmor;
+    boolean gem;
+    int playerCoins;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -163,9 +164,15 @@ public class Main {
 
     public void playerSetup(){
         playerHP = 15;
+        playerCoins = 0;
         equippedWeapon = "Knife";
         equippedWeaponLabel.setText(equippedWeapon);
         hpAmountLabel.setText("" + playerHP);
+        rope = false;
+        key = false;
+        leatherArmor = false;
+        gem = false;
+
     }
 
     public class TitleScreenHandler implements ActionListener{
@@ -189,17 +196,42 @@ public class Main {
                 case "crossroads":
                     switch (yourChoice){
                         case "c1": talkGuard(); break;
-                        case "c2": break;
+                        case "c2": meadow(); break;
                         case "c3": break;
                         case "c4": break;
-                    }
-                case "townGate":
+                    } break;
+                case "talkGuard":
                     switch (yourChoice){
-                        case "c1": break;
+                        case "c1":
+                            if (isPlayerAlive()){
+                                attackGuard();
+                            } else {
+                                death();
+                            }
                         case "c2": break;
                         case "c3": break;
                         case "c4": crossroads(); break;
-                    }
+                    } break;
+                case "attackGuard":
+                    switch (yourChoice){
+                        case "c1":
+                            if (isPlayerAlive()){
+                                attackGuard();
+                            } else {
+                                death();
+                            }
+                        case "c2": break;
+                        case "c3": giantTree(); break;
+                        case "c4": crossroads(); break;
+                    } break;
+
+                case "theCave":
+                    switch (yourChoice){
+                        case "c1": goblin(); break;
+                        case "c2": break;
+                        case "c3": giantTree(); break;
+                        case "c4": crossroads(); break;
+                    } break;
             }
 
         }
@@ -217,10 +249,27 @@ public class Main {
         choice_4.setText("Check if there is any other entrance");
     }
 
-    public void talkGuard(){
-        actualLocation = "townGate";
+    public void talkGuard() {
+        actualLocation = "talkGuard";
 
-        mainTextArea.setText("Hello stranger! I have never seen your face, \nso I cannot let you in to our town. \n\nWhere are you from?");
+        mainTextArea.setText("Hello stranger! I have never seen your face, " +
+                "\nso I cannot let you in to our town. \n\nWhere are you from?");
+
+        choice_1.setText("Attack The Guard");
+        choice_2.setText("I'm from the Dark Woods");
+        choice_3.setText("I'm new blacksmith's apprentice");
+        choice_4.setText("Return to the crossroads");
+    }
+
+    public void attackGuard(){
+        actualLocation = "attackGuard";
+        int guardHit = new java.util.Random().nextInt(4);
+
+        mainTextArea.setText("The guard dodges your attack and hit " +
+                "you back in the head causing " + guardHit + " damage.");
+        playerHP -= guardHit;
+        hpAmountLabel.setText("" + playerHP);
+
 
         choice_1.setText("Attack The Guard");
         choice_2.setText("I'm from the Dark Woods");
@@ -231,7 +280,7 @@ public class Main {
     public void meadow(){
         actualLocation = "meadow";
 
-        mainTextArea.setText("You are in the woods that you came from.\n?");
+        mainTextArea.setText("You are in the woods that you came from.");
 
         choice_1.setText("Go to the cave");
         choice_2.setText("Go to the river");
@@ -303,7 +352,7 @@ public class Main {
                 "The view from here is amazing. You see a windmill a few miles away. You see a sheet of paper on the desk. \" Dear Sam,\n" +
                 "I know that I was supposed to wait for you in our hut and don't go anywhere to your comeback.\n" +
                 "But my wound is going over and over to be worse. I think I can't wait longer. I'm going to visit my" +
-                "uncle in windmill north from here and take some medicines from him. A bow is under bed" Inside you've found a short bow! You noticed also a  ");
+                "uncle in windmill north from here and take some medicines from him. A bow is under bed\" Inside you've found a short bow! You noticed also a  ");
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
@@ -317,7 +366,7 @@ public class Main {
         mainTextArea.setText("\" Dear Sam,\n" +
                 "I know that I was supposed to wait for you in our hut and don't go anywhere to your comeback.\n" +
                 "But my wound is going over and over to be worse. I think I can't wait longer. I'm going to visit my" +
-                "uncle in windmill north from here and take some medicines from him. A bow is under bed"
+                "uncle in windmill north from here and take some medicines from him. A bow is under bed");
 
         choice_1.setText("Look under the bed");
         choice_2.setText("<");
@@ -430,6 +479,26 @@ public class Main {
         choice_3.setVisible(false);
         choice_4.setVisible(false);
     }
+
+
+    public void death() {
+        actualLocation = "death";
+
+        mainTextArea.setText("You are dead.\n\nGAME OVER!");
+        choice_1.setVisible(false);
+        choice_2.setVisible(false);
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
+    }
+
+    public boolean isPlayerAlive() {
+        if (playerHP > 0){
+            return true;
+        } else
+            return false;
+    }
+
+
 
 
 }
