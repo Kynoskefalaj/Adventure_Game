@@ -223,4 +223,54 @@ public class Main {
         choice_3.setText("I'm new blacksmith's apprentice");
         choice_4.setText("Return to the woods");
     }
+
+    public void meadow(){
+        actualLocation = "meadow";
+
+        mainTextArea.setText("You are in the woods that you came from.\n?");
+
+        choice_1.setText("Go to the cave");
+        choice_2.setText("Go to the river");
+        choice_3.setText("Go to the giant tree");
+        choice_4.setText("Go to the crossroads");
+    }
+
+    public void theCave(){
+        actualLocation = "theCave";
+
+        mainTextArea.setText("When you came closer to the cave you can smell that something inside horribly stinks.");
+
+        choice_1.setText("Go in");
+        choice_2.setText("Go to the river");
+        choice_3.setText("Go to the giant tree");
+        choice_4.setText("Go to meadow");
+    }
+
+    public void goblin(){
+        actualLocation = "goblin";
+
+        mainTextArea.setText("You encountered horrifying, mad Goblin!");
+
+        choice_1.setText("Try to comfort him");
+        choice_2.setText("Attack");
+        choice_3.setText("Run");
+        choice_4.setText("Climb on giant rock");
+    }
+
+    public void giantRock(){
+        actualLocation = "giantRock";
+
+        mainTextArea.setText("You are lucky, that stupid goblin is unable to reach you there.");
+
+        choice_1.setText("Try to comfort him");
+        choice_2.setText("Leap off");
+        if (equippedWeapon == "shortBow"){
+            choice_3.setText("Attack");
+        }
+        choice_4.setVisible(false);
+    }
+
+
+
+
 }
