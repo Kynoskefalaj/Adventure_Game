@@ -18,6 +18,8 @@ public class Main {
     String equippedWeapon;
     String actualLocation;
     boolean rope = false;
+    boolean key = false;
+    boolean leatherArmor = false;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -261,7 +263,9 @@ public class Main {
     public void giantRock(){
         actualLocation = "giantRock";
 
-        mainTextArea.setText("You are lucky, that stupid goblin is unable to reach you there.");
+        mainTextArea.setText("You are lucky, that stupid goblin is unable to reach you there.\n" +
+                "You've found also a rope.");
+        rope = true;
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Leap off");
@@ -291,7 +295,93 @@ public class Main {
             choice_4.setVisible(false);
     }
 
+    public void treeHouse(){
+        actualLocation = "treeHouse";
 
+        mainTextArea.setText("After a while of exhausting climbing you've finally reached a treeHouse." +
+                "The view from here is amazing. You see a windmill a few miles away. You see a sheet of paper on the desk. \" Dear Sam,\n" +
+                "I know that I was supposed to wait for you in our hut and don't go anywhere to your comeback.\n" +
+                "But my wound is going over and over to be worse. I think I can't wait longer. I'm going to visit my" +
+                "uncle in windmill north from here and take some medicines from him. A bow is under bed" Inside you've found a short bow! You noticed also a  ");
+
+        choice_1.setText("Try to comfort him");
+        choice_2.setText("Attack");
+        choice_3.setText("Run");
+        choice_4.setText("Climb on giant rock");
+    }
+
+    public void theLetter(){
+        actualLocation = "theLetter";
+
+        mainTextArea.setText("\" Dear Sam,\n" +
+                "I know that I was supposed to wait for you in our hut and don't go anywhere to your comeback.\n" +
+                "But my wound is going over and over to be worse. I think I can't wait longer. I'm going to visit my" +
+                "uncle in windmill north from here and take some medicines from him. A bow is under bed"
+
+        choice_1.setText("Look under the bed");
+        choice_2.setText("<");
+
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
+    }
+
+    public void theChest(){
+        actualLocation = "theChest";
+
+        mainTextArea.setText("The chest is locked. You can't open it without a proper key.");
+        choice_1.setText("<");
+        if (key == true) {
+            choice_2.setVisible(true);
+            choice_2.setText("Open");
+        } else
+            choice_2.setVisible(false);
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
+    }
+
+    public void theWindmill(){
+        actualLocation = "theWindmill";
+
+        mainTextArea.setText("You see something here is wrong. The doors leading to the mill are open.");
+        choice_1.setText("Go in");
+        choice_2.setText("Go to the cave");
+        choice_3.setText("Go to the giant tree");
+        choice_4.setText("Go to the meadow");
+    }
+
+    public void insideTheWindmill(){
+        actualLocation = "insideTheWindmill";
+
+        mainTextArea.setText("The view inside is horrible. Everything is in total mess. You found ripped off " +
+                "upper part of human corpse. Everything is in blood, but you clearly noticed there " +
+                "is a track of blood leading outside by rear exit. ");
+        choice_1.setText("Check the corpse");
+        choice_2.setText("Check the track of blood");
+        choice_3.setText("Go outside");
+        choice_4.setVisible(false);
+    }
+
+    public void theCorpse() {
+        actualLocation = "theCorpse";
+
+        mainTextArea.setText("You've found a key.");
+        choice_1.setText("<");
+        choice_2.setVisible(false);
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
+    }
+
+    public void theCemetery() {
+        actualLocation = "theCemetery";
+
+        mainTextArea.setText("Track of blood led you to creepy cemetery. " +
+                "There is a small shrine with priest statue. Behind the statue is tomb with marble doors." +
+                "You've noticed that one grave is dug up.");
+        choice_1.setText("Go to the tomb");
+        choice_2.setText("Check the grave");
+        choice_3.setText("Check the statue");
+        choice_4.setText("Go to the mill");
+    }
 
 
 }
