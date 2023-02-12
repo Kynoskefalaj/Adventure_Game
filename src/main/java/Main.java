@@ -20,6 +20,7 @@ public class Main {
     boolean rope = false;
     boolean key = false;
     boolean leatherArmor = false;
+    boolean gem = false;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -381,6 +382,53 @@ public class Main {
         choice_2.setText("Check the grave");
         choice_3.setText("Check the statue");
         choice_4.setText("Go to the mill");
+    }
+
+    public void theGrave() {
+        actualLocation = "theGrave";
+
+        mainTextArea.setText("Here lies Edwyn Bones.");
+        choice_1.setText("<");
+        choice_2.setVisible(false);
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
+    }
+
+    public void theShrine() {
+        actualLocation = "theShrine";
+
+        mainTextArea.setText("When you came closer to the shrine you see clearly that" +
+                "a priest represented by statue reach out his hand. His hand is the hand is arranged as " +
+                "if it is holding something. Something is missing here.");
+        choice_1.setText("<");
+        if (gem = true){
+            choice_2.setVisible(true);
+            choice_2.setText("Put a jewel in that hand");
+        } else
+            choice_2.setVisible(false);
+
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
+    }
+
+    public void tombUnlock() {
+        actualLocation = "tombUnlock";
+
+        mainTextArea.setText("Eureka! When you put the gem inside priest's hand," +
+                "the doors leading to the Tomb opened.");
+        choice_1.setText("Enter the tomb");
+        choice_3.setText("Go to windmill");
+        choice_4.setText("Go to the cave");
+    }
+
+    public void ghoul() {
+        actualLocation = "ghoul";
+
+        mainTextArea.setText("You 've encountered a Ghoul!");
+        choice_1.setText("Attack");
+        choice_2.setText("Run");
+        choice_3.setVisible(false);
+        choice_4.setVisible(false);
     }
 
 
