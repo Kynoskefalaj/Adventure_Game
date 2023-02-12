@@ -200,6 +200,7 @@ public class Main {
                         case "c3": break;
                         case "c4": break;
                     } break;
+
                 case "talkGuard":
                     switch (yourChoice){
                         case "c1":
@@ -212,6 +213,7 @@ public class Main {
                         case "c3": break;
                         case "c4": crossroads(); break;
                     } break;
+
                 case "attackGuard":
                     switch (yourChoice){
                         case "c1":
@@ -221,6 +223,22 @@ public class Main {
                                 death();
                             }
                         case "c2": break;
+                        case "c3": break;
+                        case "c4": crossroads(); break;
+                    } break;
+
+                case "meadow":
+                    switch (yourChoice){
+                        case "c1": theCave(); break;
+                        case "c2": river(); break;
+                        case "c3": giantTree(); break;
+                        case "c4": crossroads(); break;
+                    } break;
+
+                case "river":
+                    switch (yourChoice){
+                        case "c1": theCave(); break;
+                        case "c2": river(); break;
                         case "c3": giantTree(); break;
                         case "c4": crossroads(); break;
                     } break;
@@ -284,6 +302,24 @@ public class Main {
 
         choice_1.setText("Go to the cave");
         choice_2.setText("Go to the river");
+        choice_3.setText("Go to the giant tree");
+        choice_4.setText("Go to the crossroads");
+    }
+
+    public void river(){
+        actualLocation = "river";
+        int restoredHP = new java.util.Random().nextInt(4);
+        playerHP += restoredHP;
+        if(playerHP>15){ //set max HP to 15
+            playerHP = 15;
+        }
+        hpAmountLabel.setText("" + playerHP);
+
+        mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
+                "Your health is restored by " + restoredHP+ ".");
+
+        choice_1.setText("Go to the cave");
+        choice_2.setText("Drink more");
         choice_3.setText("Go to the giant tree");
         choice_4.setText("Go to the crossroads");
     }
