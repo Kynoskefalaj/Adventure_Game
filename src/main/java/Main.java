@@ -14,7 +14,8 @@ public class Main {
     JButton startButton, choice_1, choice_2, choice_3, choice_4;
     JTextArea mainTextArea;
 
-    int playerHP;
+    int playerHP, playerPower, playerArmor;
+    int goblinHP, goblinPower;
     String equippedWeapon;
     String actualLocation;
     boolean rope;
@@ -159,6 +160,7 @@ public class Main {
         con.add(choiceButtonPanel);
 
         playerSetup();
+        monstersSetup();
         crossroads();
     }
 
@@ -166,6 +168,20 @@ public class Main {
         playerHP = 15;
         playerCoins = 0;
         equippedWeapon = "Knife";
+
+        switch (equippedWeapon){
+            case "Knife":
+                playerPower = 3; break;
+            case "Rusty Sword":
+                playerPower = 8; break;
+        }
+
+        if (leatherArmor){
+            playerArmor = 7;
+        } else {
+            playerArmor = 2;
+        }
+
         equippedWeaponLabel.setText(equippedWeapon);
         hpAmountLabel.setText("" + playerHP);
         rope = false;
@@ -173,6 +189,12 @@ public class Main {
         leatherArmor = false;
         gem = false;
 
+
+    }
+
+    public void monstersSetup(){
+        goblinHP = 20;
+        goblinPower = 10;
     }
 
     public class TitleScreenHandler implements ActionListener{
@@ -237,6 +259,14 @@ public class Main {
 
                 case "river":
                     switch (yourChoice){
+                        case "c1": swimming(); break;
+                        case "c2": river(); break;
+                        case "c3": giantTree(); break;
+                        case "c4": crossroads(); break;
+                    } break;
+
+                case "swimming":
+                    switch (yourChoice){
                         case "c1": theCave(); break;
                         case "c2": river(); break;
                         case "c3": giantTree(); break;
@@ -246,7 +276,15 @@ public class Main {
                 case "theCave":
                     switch (yourChoice){
                         case "c1": goblin(); break;
-                        case "c2": break;
+                        case "c2": river(); break;
+                        case "c3": giantTree(); break;
+                        case "c4": crossroads(); break;
+                    } break;
+
+                case "goblin":
+                    switch (yourChoice){
+                        case "c1": goblin(); break;
+                        case "c2": river(); break;
                         case "c3": giantTree(); break;
                         case "c4": crossroads(); break;
                     } break;
@@ -318,10 +356,24 @@ public class Main {
         mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
                 "Your health is restored by " + restoredHP+ ".");
 
-        choice_1.setText("Go to the cave");
+        choice_1.setText("Hop in to the water");
         choice_2.setText("Drink more");
         choice_3.setText("Go to the giant tree");
         choice_4.setText("Go to the crossroads");
+    }
+
+    public void swimming(){
+        actualLocation = "swimming";
+        equippedWeapon = "Rusty Sword";
+        equippedWeaponLabel.setText("" + equippedWeapon);
+        mainTextArea.setText("While swimming you found something shiny in the water.\n" +
+                "You decided to dive down to get that. \n" +
+                "You have found Rusty Sword!");
+
+        choice_1.setText("Go to the cave");
+        choice_2.setText("Go to the river bank");
+        choice_3.setText("Go to the giant tree");
+        choice_4.setText("Go to meadow");
     }
 
     public void theCave(){
@@ -339,6 +391,32 @@ public class Main {
         actualLocation = "goblin";
 
         mainTextArea.setText("You encountered horrifying, mad Goblin!");
+
+        choice_1.setText("Try to comfort him");
+        choice_2.setText("Attack");
+        choice_3.setText("Run");
+        choice_4.setText("Climb on giant rock");
+    }
+
+    public void goblinAttack(){
+        actualLocation = "goblin";
+        int goblinHit = new java.util.Random().nextInt(8);
+
+        mainTextArea.setText("Goblin attacks you with loud shout! \n" +
+                "You lost " + goblinHit + " health points." );
+
+        choice_1.setText("Try to comfort him");
+        choice_2.setText("Attack");
+        choice_3.setText("Run");
+        choice_4.setText("Climb on giant rock");
+    }
+
+    public void playerAttacksGoblin(){
+        actualLocation = "playerAttacksGoblin";
+        int goblinHit = new java.util.Random().nextInt(goblinPower);
+
+        mainTextArea.setText("Goblin attacks you with loud shout! \n" +
+                "You lost " + goblinHit + " health points." );
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
