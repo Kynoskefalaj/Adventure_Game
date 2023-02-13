@@ -207,138 +207,207 @@ public class Main {
         }
     }
 
-    public class ChoiceHandler implements ActionListener{
+    public class ChoiceHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent event) {
 
             String yourChoice = event.getActionCommand();
 
-            switch (actualLocation){
+            switch (actualLocation) {
                 case "crossroads":
-                    switch (yourChoice){
-                        case "c1": talkGuard(); break;
-                        case "c2": meadow(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            talkGuard();
+                            break;
+                        case "c2":
+                            meadow();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "talkGuard":
-                    switch (yourChoice){
+                    switch (yourChoice) {
                         case "c1":
                             attackGuard();
-                            if (isPlayerAlive()){
+                            if (isPlayerAlive()) {
                                 break;
                             } else {
                                 death();
-                            } break;
-                        case "c2": break;
-                        case "c3": break;
-                        case "c4": crossroads(); break;
-                    } break;
+                            }
+                            break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "attackGuard":
-                    switch (yourChoice){
+                    switch (yourChoice) {
                         case "c1":
                             attackGuard();
-                            if (isPlayerAlive()){
+                            if (isPlayerAlive()) {
                                 break;
                             } else {
                                 death();
-                            } break;
-                        case "c2": break;
-                        case "c3": break;
-                        case "c4": crossroads(); break;
-                    } break;
+                            }
+                            break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "meadow":
-                    switch (yourChoice){
-                        case "c1": theCave(); break;
-                        case "c2": river(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": crossroads(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theCave();
+                            break;
+                        case "c2":
+                            river();
+                            break;
+                        case "c3":
+                            giantTree();
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "river":
-                    switch (yourChoice){
-                        case "c1": swimming(); break;
-                        case "c2": river(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": crossroads(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            swimming();
+                            break;
+                        case "c2":
+                            river();
+                            break;
+                        case "c3":
+                            giantTree();
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "swimming":
-                    switch (yourChoice){
-                        case "c1": theCave(); break;
-                        case "c2": river(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": crossroads(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theCave();
+                            break;
+                        case "c2":
+                            river();
+                            break;
+                        case "c3":
+                            giantTree();
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "theCave":
-                    switch (yourChoice){
+                    switch (yourChoice) {
                         case "c1":
-                            if (goblinAlive){
+                            if (goblinAlive) {
                                 goblin();
                             } else {
                                 goblinDown();
-                            } break;
-                        case "c2": river(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": crossroads(); break;
-                    } break;
+                            }
+                            break;
+                        case "c2":
+                            river();
+                            break;
+                        case "c3":
+                            giantTree();
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "goblin":
-                    switch (yourChoice){
+                    switch (yourChoice) {
                         case "c1":
                             goblinAttack();
-                            if (isPlayerAlive()){
+                            if (isPlayerAlive()) {
                                 break;
                             } else {
                                 death();
-                            } break;
+                            }
+                            break;
                         case "c2":
-                            if (isGoblinAlive()){
+                            if (isGoblinAlive()) {
                                 playerAttacksGoblin();
                             } else {
                                 goblinDown();
-                            } break;
-                        case "c3": theCave(); break;
-                        case "c4": giantRock(); break;
-                    } break;
+                            }
+                            break;
+                        case "c3":
+                            theCave();
+                            break;
+                        case "c4":
+                            giantRock();
+                            break;
+                    }
+                    break;
 
                 case "goblinAttack":
                     switch (yourChoice) {
                         case "c1":
                             goblinAttack();
-                            if (isPlayerAlive()){
+                            if (isPlayerAlive()) {
                                 break;
                             } else {
                                 death();
-                            } break;
+                            }
+                            break;
                         case "c2":
                             playerAttacksGoblin();
-                            if (isGoblinAlive()){
+                            if (isGoblinAlive()) {
                                 break;
                             } else {
                                 goblinDown();
-                            } break;
-                        case "c3": theCave(); break;
-                        case "c4": giantRock(); break;
-                    } break;
+                            }
+                            break;
+                        case "c3":
+                            theCave();
+                            break;
+                        case "c4":
+                            giantRock();
+                            break;
+                    }
+                    break;
 
                 case "playerAttacksGoblin":
                     switch (yourChoice) {
                         case "c1":
                             goblinAttack();
-                            if (isPlayerAlive()){
+                            if (isPlayerAlive()) {
                                 break;
                             } else {
                                 death();
-                            } break;
+                            }
+                            break;
                         case "c2":
                             playerAttacksGoblin();
-                            if (isGoblinAlive()){
+                            if (isGoblinAlive()) {
                                 goblinAttack();
                                 if (isPlayerAlive()) {
                                     break;
@@ -347,171 +416,322 @@ public class Main {
                                 }
                             } else {
                                 goblinDown();
-                            } break;
-                        case "c3": theCave(); break;
-                        case "c4": giantRock(); break;
-                    } break;
+                            }
+                            break;
+                        case "c3":
+                            theCave();
+                            break;
+                        case "c4":
+                            giantRock();
+                            break;
+                    }
+                    break;
 
                 case "giantRock":
-                    switch (yourChoice){
-                        case "c1": goblin(); break;
-                        case "c2": goblinDown();
-                                mainTextArea.setText("You shoot that filthy creature " +
-                                        "right between the eyes!" +
-                                        "\n Goblin is down.\n\n" +
-                                        "You obtained large shiny gem!");
-                                break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            goblin();
+                            break;
+                        case "c2":
+                            goblinDown();
+                            mainTextArea.setText("You shoot that filthy creature " +
+                                    "right between the eyes!" +
+                                    "\n Goblin is down.\n\n" +
+                                    "You obtained large shiny gem!");
+                            break;
+                    }
+                    break;
 
                 case "goblinDown":
-                    switch (yourChoice){
-                        case "c1": giantTree(); break;
-                        case "c2": river(); break;
-                        case "c3": theCave(); break;
-                        case "c4": crossroads(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            giantTree();
+                            break;
+                        case "c2":
+                            river();
+                            break;
+                        case "c3":
+                            theCave();
+                            break;
+                        case "c4":
+                            crossroads();
+                            break;
+                    }
+                    break;
 
                 case "giantTree":
-                    switch (yourChoice){
-                        case "c1": theCave(); break;
-                        case "c2": river(); break;
-                        case "c3": crossroads(); break;
-                        case "c4": treeHouse(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theCave();
+                            break;
+                        case "c2":
+                            river();
+                            break;
+                        case "c3":
+                            crossroads();
+                            break;
+                        case "c4":
+                            treeHouse();
+                            break;
+                    }
+                    break;
 
                 case "treeHouse":
-                    switch (yourChoice){
-                        case "c1": theLetter(); break;
-                        case "c2": theChest(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": theWindmill(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theLetter();
+                            break;
+                        case "c2":
+                            theChest();
+                            break;
+                        case "c3":
+                            giantTree();
+                            break;
+                        case "c4":
+                            theWindmill();
+                            break;
+                    }
+                    break;
 
                 case "theLetter":
-                    switch (yourChoice){
-                        case "c1": bed(); break;
-                        case "c2": treeHouse(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            bed();
+                            break;
+                        case "c2":
+                            treeHouse();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "theChest":
-                    switch (yourChoice){
-                        case "c1": treeHouse(); break;
-                        case "c2": chestOpen(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            treeHouse();
+                            break;
+                        case "c2":
+                            chestOpen();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "chestOpen":
-                    switch (yourChoice){
-                        case "c1": theLetter(); break;
-                        case "c2": treeHouse(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theLetter();
+                            break;
+                        case "c2":
+                            treeHouse();
+                            break;
+                    }
+                    break;
 
                 case "theWindmill":
-                    switch (yourChoice){
-                        case "c1": insideTheWindmill(); break;
-                        case "c2": theCave(); break;
-                        case "c3": giantTree(); break;
-                        case "c4": meadow(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            insideTheWindmill();
+                            break;
+                        case "c2":
+                            theCave();
+                            break;
+                        case "c3":
+                            giantTree();
+                            break;
+                        case "c4":
+                            meadow();
+                            break;
+                    }
+                    break;
 
                 case "insideTheWindmill":
-                    switch (yourChoice){
-                        case "c1": theCorpse(); break;
-                        case "c2": theCemetery(); break;
-                        case "c3": theWindmill(); break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theCorpse();
+                            break;
+                        case "c2":
+                            theCemetery();
+                            break;
+                        case "c3":
+                            theWindmill();
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "theCorpse":
-                    switch (yourChoice){
-                        case "c1": theCemetery(); break;
-                        case "c2": break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            insideTheWindmill();
+                            break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "theCemetery":
-                    switch (yourChoice){
-                        case "c1": break;
-                        case "c2": theGrave(); break;
-                        case "c3": theShrine(); break;
-                        case "c4": theWindmill(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            tomb();
+                            break;
+                        case "c2":
+                            theGrave();
+                            break;
+                        case "c3":
+                            theShrine();
+                            break;
+                        case "c4":
+                            theWindmill();
+                            break;
+                    }
+                    break;
 
                 case "theShrine":
-                    switch (yourChoice){
-                        case "c1": theCemetery(); break;
-                        case "c2": tombUnlock(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theCemetery();
+                            break;
+                        case "c2":
+                            tombUnlock();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "tombUnlock":
-                    switch (yourChoice){
-                        case "c1": tomb(); break;
-                        case "c2": theWindmill(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            tomb();
+                            break;
+                        case "c2":
+                            theWindmill();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "theGrave":
-                    switch (yourChoice){
-                        case "c1": theCemetery(); break;
-                        case "c2": break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            theCemetery();
+                            break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "tomb":
-                    switch (yourChoice){
-                        case "c1": theGrave(); break;
-                        case "c2": theShrine(); break;
-                        case "c3": theWindmill(); break;
-                        case "c4": tomb1(); break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            tomb1();
+                            break;
+                        case "c2":
+                            theShrine();
+                            break;
+                        case "c3":
+                            theWindmill();
+                            break;
+                        case "c4":
+                            tomb1();
+                            break;
+                    }
+                    break;
 
                 case "tomb1":
-                    switch (yourChoice){
-                        case "c1": tomb2(); break;
-                        case "c2": theCemetery(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            tomb2();
+                            break;
+                        case "c2":
+                            theCemetery();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "tomb2":
-                    switch (yourChoice){
-                        case "c1": tomb3(); break;
-                        case "c2": theCemetery(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            tomb3();
+                            break;
+                        case "c2":
+                            theCemetery();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "tomb3":
-                    switch (yourChoice){
-                        case "c1": tomb4(); break;
-                        case "c2": theCemetery(); break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            tomb4();
+                            break;
+                        case "c2":
+                            theCemetery();
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "tomb4":
-                    switch (yourChoice){
-                        case "c1": ghoul(); break;
-                        case "c2": break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            ghoul();
+                            break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
 
                 case "ghoul":
-                    switch (yourChoice){
-                        case "c1": ghoul(); break;
-                        case "c2": break;
-                        case "c3": break;
-                        case "c4": break;
-                    } break;
+                    switch (yourChoice) {
+                        case "c1":
+                            ghoul();
+                            break;
+                        case "c2":
+                            break;
+                        case "c3":
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
+            }
         }
     }
 
@@ -853,6 +1073,7 @@ public class Main {
     }
 
     public void theGrave() {
+        buttonVisibility(1);
         actualLocation = "theGrave";
 
         mainTextArea.setText("Here lies Edwyn Bones.\n\nRIP");
@@ -912,7 +1133,7 @@ public class Main {
         actualLocation = "tomb1";
 
         mainTextArea.setText("You stepped inside cold, dark tomb.\n" +
-                "You realised that you can't hear any noise from down there.\n" +
+                "You realised that you can't hear any noise from \ndown there.\n" +
                 "Maybe it is a good sign?\n\nRight?");
 
         choice_1.setText("Go deeper");
@@ -931,9 +1152,9 @@ public class Main {
 
     public void tomb3() {
         buttonVisibility(2);
-        actualLocation = "tomb2";
+        actualLocation = "tomb3";
 
-        mainTextArea.setText("Your eye vision is slowly adapting \n" +
+        mainTextArea.setText("Your eyes vision is slowly adapting \n" +
                 "to that extreme darkness.");
 
         choice_1.setText("Go deeper");
@@ -942,9 +1163,10 @@ public class Main {
 
     public void tomb4() {
         buttonVisibility(2);
-        actualLocation = "tomb2";
+        actualLocation = "tomb4";
 
-        mainTextArea.setText("On the end of dark corridor you noticed kind of move. \n" +
+        mainTextArea.setText("On the end of dark corridor you noticed kind of...\n" +
+                " move... \n\n" +
                 "You see pale skin in the shadow.");
 
         choice_1.setText("Go check");
@@ -962,38 +1184,38 @@ public class Main {
         choice_2.setText("Run");
     }
 
-        public void ghoulAttack() {
-            buttonVisibility(2);
-            actualLocation = "ghoul";
+    public void ghoulAttack() {
+        buttonVisibility(2);
+        actualLocation = "ghoul";
 
-            mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
-                    "You 've encountered a Ghoul!");
+        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                "You 've encountered a Ghoul!");
 
-            choice_1.setText("Attack");
-            choice_2.setText("Run");
-        }
+        choice_1.setText("Attack");
+        choice_2.setText("Run");
+    }
 
-        public void ghoulFight() {
-            buttonVisibility(2);
-            actualLocation = "ghoul";
+    public void ghoulFight() {
+        buttonVisibility(2);
+        actualLocation = "ghoul";
 
-            mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
-                    "You 've encountered a Ghoul!");
+        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                "You 've encountered a Ghoul!");
 
-            choice_1.setText("Attack");
-            choice_2.setText("Run");
-        }
+        choice_1.setText("Attack");
+        choice_2.setText("Run");
+    }
 
-        public void healthPotion() {
-            buttonVisibility(2);
-            actualLocation = "ghoul";
+    public void healthPotion() {
+        buttonVisibility(2);
+        actualLocation = "ghoul";
 
-            mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
-                    "You 've encountered a Ghoul!");
+        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                "You 've encountered a Ghoul!");
 
-            choice_1.setText("Attack");
-            choice_2.setText("Run");
-        }
+        choice_1.setText("Attack");
+        choice_2.setText("Run");
+    }
 
 
     public void death() {
