@@ -170,18 +170,12 @@ public class Main {
         playerCoins = 0;
         equippedWeapon = "Knife";
 
-        switch (equippedWeapon){
-            case "Knife":
-                playerPower = 3; break;
-            case "Rusty Sword":
-                playerPower = 8; break;
+        switch (equippedWeapon) {
+            case "Knife" -> playerPower = 3;
+            case "Rusty Sword" -> playerPower = 8;
         }
 
-        if (leatherArmor){
-            playerArmor = 7;
-        } else {
-            playerArmor = 2;
-        }
+        playerArmor = 2;
 
         equippedWeaponLabel.setText(equippedWeapon);
         hpAmountLabel.setText("" + playerHP);
@@ -194,7 +188,7 @@ public class Main {
     }
 
     public void monstersSetup(){
-        goblinHP = 20;
+        goblinHP = 45;
         goblinPower = 10;
         goblinAlive = true;
     }
@@ -215,7 +209,6 @@ public class Main {
 
             String yourChoice = event.getActionCommand();
 
-
             switch (actualLocation){
                 case "crossroads":
                     switch (yourChoice){
@@ -228,11 +221,12 @@ public class Main {
                 case "talkGuard":
                     switch (yourChoice){
                         case "c1":
+                            attackGuard();
                             if (isPlayerAlive()){
-                                attackGuard();
+                                break;
                             } else {
                                 death();
-                            }
+                            } break;
                         case "c2": break;
                         case "c3": break;
                         case "c4": crossroads(); break;
@@ -241,11 +235,12 @@ public class Main {
                 case "attackGuard":
                     switch (yourChoice){
                         case "c1":
+                            attackGuard();
                             if (isPlayerAlive()){
-                                attackGuard();
+                                break;
                             } else {
                                 death();
-                            }
+                            } break;
                         case "c2": break;
                         case "c3": break;
                         case "c4": crossroads(); break;
@@ -291,8 +286,9 @@ public class Main {
                 case "goblin":
                     switch (yourChoice){
                         case "c1":
+                            goblinAttack();
                             if (isPlayerAlive()){
-                                goblinAttack();
+                                break;
                             } else {
                                 death();
                             } break;
@@ -309,14 +305,16 @@ public class Main {
                 case "goblinAttack":
                     switch (yourChoice) {
                         case "c1":
+                            goblinAttack();
                             if (isPlayerAlive()){
-                                goblinAttack();
+                                break;
                             } else {
                                 death();
                             } break;
                         case "c2":
+                            playerAttacksGoblin();
                             if (isGoblinAlive()){
-                                playerAttacksGoblin();
+                                break;
                             } else {
                                 goblinDown();
                             } break;
@@ -327,16 +325,18 @@ public class Main {
                 case "playerAttacksGoblin":
                     switch (yourChoice) {
                         case "c1":
+                            goblinAttack();
                             if (isPlayerAlive()){
-                                goblinAttack();
+                                break;
                             } else {
                                 death();
                             } break;
                         case "c2":
+                            playerAttacksGoblin();
                             if (isGoblinAlive()){
-                                playerAttacksGoblin();
+                                goblinAttack();
                                 if (isPlayerAlive()) {
-                                    goblinAttack();
+                                    break;
                                 } else {
                                     death();
                                 }
@@ -350,14 +350,65 @@ public class Main {
                 case "giantRock":
                     switch (yourChoice){
                         case "c1": goblin(); break;
-                        case "c2": goblinDown(); break;
+                        case "c2": goblinDown();
+                                mainTextArea.setText("You shoot that filthy creature " +
+                                        "right between the eyes!" +
+                                        "\n Goblin is down.\n\n" +
+                                        "You obtained large shiny gem!");
+                                break;
+                    } break;
+
+                case "goblinDown":
+                    switch (yourChoice){
+                        case "c1": giantTree(); break;
+                        case "c2": river(); break;
+                        case "c3": theCave(); break;
+                        case "c4": crossroads(); break;
+                    } break;
+
+                case "giantTree":
+                    switch (yourChoice){
+                        case "c1": theCave(); break;
+                        case "c2": river(); break;
+                        case "c3": crossroads(); break;
+                        case "c4": treeHouse(); break;
+                    } break;
+
+                case "treeHouse":
+                    switch (yourChoice){
+                        case "c1": theLetter(); break;
+                        case "c2": theChest(); break;
+                        case "c3": giantTree(); break;
+                        case "c4": theWindmill(); break;
+                    } break;
+
+                case "theLetter":
+                    switch (yourChoice){
+                        case "c1": bed(); break;
+                        case "c2": treeHouse(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "theChest":
+                    switch (yourChoice){
+                        case "c1": treeHouse(); break;
+                        case "c2": chestOpen(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "chestOpen":
+                    switch (yourChoice){
+                        case "c1": theLetter(); break;
+                        case "c2": treeHouse();
                     } break;
             }
-
         }
     }
 
     public void crossroads(){
+        buttonVisibility(4);
         actualLocation = "crossroads";
 
         mainTextArea.setText("After many days of long, exhausting journey \nyou finally went out of " +
@@ -370,6 +421,7 @@ public class Main {
     }
 
     public void talkGuard() {
+        buttonVisibility(4);
         actualLocation = "talkGuard";
 
         mainTextArea.setText("Hello stranger! I have never seen your face, " +
@@ -382,6 +434,7 @@ public class Main {
     }
 
     public void attackGuard(){
+        buttonVisibility(4);
         actualLocation = "attackGuard";
         int guardHit = new java.util.Random().nextInt(4);
 
@@ -398,6 +451,7 @@ public class Main {
     }
 
     public void meadow(){
+        buttonVisibility(4);
         actualLocation = "meadow";
 
         mainTextArea.setText("You are in the woods that you came from.");
@@ -409,6 +463,7 @@ public class Main {
     }
 
     public void river(){
+        buttonVisibility(4);
         actualLocation = "river";
         int restoredHP = new java.util.Random().nextInt(4);
         playerHP += restoredHP;
@@ -427,6 +482,7 @@ public class Main {
     }
 
     public void swimming(){
+        buttonVisibility(4);
         actualLocation = "swimming";
         equippedWeapon = "Rusty Sword";
         equippedWeaponLabel.setText("" + equippedWeapon);
@@ -441,9 +497,11 @@ public class Main {
     }
 
     public void theCave(){
+        buttonVisibility(4);
         actualLocation = "theCave";
 
-        mainTextArea.setText("When you came closer to the cave you can smell that something inside horribly stinks.");
+        mainTextArea.setText("When you came closer to the cave you can smell \n" +
+                "that something inside horribly stinks.");
 
         choice_1.setText("Go in");
         choice_2.setText("Go to the river");
@@ -452,23 +510,30 @@ public class Main {
     }
 
     public void goblin(){
-        actualLocation = "goblin";
+        buttonVisibility(4);
+        if (goblinAlive){
+            actualLocation = "goblin";
 
-        mainTextArea.setText("You encountered horrifying, mad Goblin!");
+            mainTextArea.setText("You encountered horrifying, mad Goblin!");
 
-        choice_1.setText("Try to comfort him");
-        choice_2.setText("Attack");
-        choice_3.setText("Run");
-        choice_4.setText("Climb on giant rock");
+            choice_1.setText("Try to comfort him");
+            choice_2.setText("Attack");
+            choice_3.setText("Run");
+            choice_4.setText("Climb on giant rock");}
+        else {
+            goblinDown();
+        }
     }
 
     public void goblinAttack(){
+        buttonVisibility(4);
         actualLocation = "goblin";
-        int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(8));
+        int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(playerPower));
         playerHP -= goblinHit;
         hpAmountLabel.setText("" + playerHP);
-        mainTextArea.setText("Goblin attacks you with loud shout! \n" +
-                "You lost " + goblinHit + " health points." );
+        mainTextArea.setText("Goblin health: " + goblinHP +
+                "\n\nGoblin attacks you with loud shout! \n" +
+                "You lost " + goblinHit + " health points!" );
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
@@ -477,12 +542,14 @@ public class Main {
     }
 
     public void playerAttacksGoblin(){
+        buttonVisibility(4);
         actualLocation = "playerAttacksGoblin";
         int playerHit = new java.util.Random().nextInt(playerPower);
         goblinHP -= playerHit;
 
-        mainTextArea.setText("You attack your opponent with " + equippedWeapon + "\n" +
-                "Goblin lost " + "health points." );
+        mainTextArea.setText("Goblin health: " + goblinHP +
+                "\n\nYou attack your opponent with " + equippedWeapon + "\n" +
+                "Goblin lost " + playerHit + " health points!" );
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
@@ -491,6 +558,7 @@ public class Main {
     }
 
     public void goblinDown(){
+        buttonVisibility(4);
         actualLocation = "goblinDown";
         gem = true;
         goblinAlive = false;
@@ -505,14 +573,16 @@ public class Main {
     }
 
     public void giantRock(){
+        buttonVisibility(2);
         actualLocation = "giantRock";
 
-        mainTextArea.setText("You are lucky, that stupid goblin is unable to reach you there.\n" +
-                "You've found also a rope.");
+        mainTextArea.setText("You are lucky, that stupid goblin is unable \nto" +
+                "reach you there.\n\n" +
+                "You've also found a rope.");
         rope = true;
 
         choice_1.setText("Leap off");
-        if (equippedWeapon == "shortBow"){
+        if (equippedWeapon == "Short Bow"){
             choice_2.setText("Attack");
         }
         else
@@ -522,10 +592,12 @@ public class Main {
     }
 
     public void giantTree(){
+        buttonVisibility(3);
         actualLocation = "giantTree";
 
         mainTextArea.setText("That Tree is really huge. When you look up you \n" +
-                "see a treehouse hidden high in branches. You cannot reach it without rope.");
+                "see a treehouse hidden high in branches. \n\n" +
+                "You cannot reach it without a rope.");
 
         choice_1.setText("Go to the cave");
         choice_2.setText("Go to the river");
@@ -540,39 +612,54 @@ public class Main {
     }
 
     public void treeHouse(){
+        buttonVisibility(4);
         actualLocation = "treeHouse";
 
-        mainTextArea.setText("After a while of exhausting climbing you've finally reached a treeHouse." +
-                "The view from here is amazing. You see a windmill a few miles away. You see a sheet of paper on the desk. \" Dear Sam,\n" +
-                "I know that I was supposed to wait for you in our hut and don't go anywhere to your comeback.\n" +
-                "But my wound is going over and over to be worse. I think I can't wait longer. I'm going to visit my" +
-                "uncle in windmill north from here and take some medicines from him. A bow is under bed\" Inside you've found a short bow! You noticed also a  ");
+        mainTextArea.setText("After a while you reached a tree house.\n" +
+                "It is long way down.\n" +
+                "The view from here is amazing. \nYou see a windmill a few miles away.\n\n" +
+                " In this tiny house is nothing but the desk, bed and chest ");
 
-        choice_1.setText("Try to comfort him");
-        choice_2.setText("Attack");
-        choice_3.setText("Run");
-        choice_4.setText("Climb on giant rock");
+        choice_1.setText("Look at the desk");
+        choice_2.setText("Open the chest");
+        choice_3.setText("Go down");
+        choice_4.setText("Go to the windmill");
     }
 
     public void theLetter(){
+        buttonVisibility(2);
         actualLocation = "theLetter";
 
-        mainTextArea.setText("\" Dear Sam,\n" +
-                "I know that I was supposed to wait for you in our hut and don't go anywhere to your comeback.\n" +
-                "But my wound is going over and over to be worse. I think I can't wait longer. I'm going to visit my" +
-                "uncle in windmill north from here and take some medicines from him. A bow is under bed");
+        mainTextArea.setText(" Dear Sam,\n" +
+                "I know that I was supposed to wait for you " +
+                "and don't go anywhere until you come back.\n" +
+                "But my wound is going over and over to be worse. I think " +
+                "I can't wait longer. I'm going to visit my \n" +
+                "uncle in windmill north from here and take some medicines " +
+                "from him. A bow is under bed");
 
         choice_1.setText("Look under the bed");
         choice_2.setText("<");
+    }
 
-        choice_3.setVisible(false);
-        choice_4.setVisible(false);
+    public void bed(){
+        buttonVisibility(2);
+        actualLocation = "theLetter";
+
+        mainTextArea.setText("You have found a Short Bow!");
+        equippedWeapon = "Short Bow";
+        equippedWeaponLabel.setText("" + equippedWeapon);
+
+        choice_1.setText("Look under the bed");
+        choice_2.setText("<");
     }
 
     public void theChest(){
+        buttonVisibility(1);
         actualLocation = "theChest";
 
-        mainTextArea.setText("The chest is locked. You can't open it without a proper key.");
+        mainTextArea.setText("The chest is locked. You can't open it without \n" +
+                "a proper key.");
         choice_1.setText("<");
         if (key == true) {
             choice_2.setVisible(true);
@@ -581,6 +668,18 @@ public class Main {
             choice_2.setVisible(false);
         choice_3.setVisible(false);
         choice_4.setVisible(false);
+    }
+
+    public void chestOpen(){
+        buttonVisibility(2);
+        actualLocation = "chestOpen";
+        leatherArmor = true;
+
+        mainTextArea.setText("You've opened the chest with a key from windmill!\n" +
+                "You have got nice and robust leather armor.");
+        choice_1.setText("Look at the Letter");
+        choice_2.setText("<");
+
     }
 
     public void theWindmill(){
@@ -703,7 +802,49 @@ public class Main {
         Thread.sleep(2000);
     }
 
+    public void buttonVisibility(int i){
+        switch (i){
+            case 1 :
+                choice_1.setVisible(true);
+                choice_2.setVisible(false);
+                choice_3.setVisible(false);
+                choice_4.setVisible(false);
+                break;
+            case 2 :
+                choice_1.setVisible(true);
+                choice_2.setVisible(true);
+                choice_3.setVisible(false);
+                choice_4.setVisible(false);
+                break;
+            case 3 :
+                choice_1.setVisible(true);
+                choice_2.setVisible(true);
+                choice_3.setVisible(true);
+                choice_4.setVisible(false);
+                break;
+            case 4 :
+                choice_1.setVisible(true);
+                choice_2.setVisible(true);
+                choice_3.setVisible(true);
+                choice_4.setVisible(true);
+                break;
+        }
+    }
 
+    public void playerUpdate(){
+        switch (equippedWeapon) {
+            case "Knife" -> playerPower = 3;
+            case "Rusty Sword" -> playerPower = 5;
+            case "Short Bow" -> playerPower = 9;
+        }
+        if (leatherArmor){
+            playerArmor = 7;
+        } else {
+            playerArmor = 2;
+        }
+        hpAmountLabel.setText("" + playerHP);
+        equippedWeaponLabel.setText(("" + equippedWeapon));
+    }
 
 
 }
