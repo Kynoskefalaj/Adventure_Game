@@ -23,7 +23,9 @@ public class Main {
     boolean leatherArmor;
     boolean gem;
     boolean goblinAlive;
-    int playerCoins;
+    boolean tombAvailable = false;
+    int playerCoins; int healthPotions;
+    int ghoulHP, ghoulPower;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -191,6 +193,9 @@ public class Main {
         goblinHP = 45;
         goblinPower = 10;
         goblinAlive = true;
+
+        ghoulHP = 250;
+        ghoulPower = 10;
     }
 
     public class TitleScreenHandler implements ActionListener{
@@ -401,9 +406,112 @@ public class Main {
                 case "chestOpen":
                     switch (yourChoice){
                         case "c1": theLetter(); break;
-                        case "c2": treeHouse();
+                        case "c2": treeHouse(); break;
                     } break;
-            }
+
+                case "theWindmill":
+                    switch (yourChoice){
+                        case "c1": insideTheWindmill(); break;
+                        case "c2": theCave(); break;
+                        case "c3": giantTree(); break;
+                        case "c4": meadow(); break;
+                    } break;
+
+                case "insideTheWindmill":
+                    switch (yourChoice){
+                        case "c1": theCorpse(); break;
+                        case "c2": theCemetery(); break;
+                        case "c3": theWindmill(); break;
+                        case "c4": break;
+                    } break;
+
+                case "theCorpse":
+                    switch (yourChoice){
+                        case "c1": theCemetery(); break;
+                        case "c2": break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "theCemetery":
+                    switch (yourChoice){
+                        case "c1": break;
+                        case "c2": theGrave(); break;
+                        case "c3": theShrine(); break;
+                        case "c4": theWindmill(); break;
+                    } break;
+
+                case "theShrine":
+                    switch (yourChoice){
+                        case "c1": theCemetery(); break;
+                        case "c2": tombUnlock(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "tombUnlock":
+                    switch (yourChoice){
+                        case "c1": tomb(); break;
+                        case "c2": theWindmill(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "theGrave":
+                    switch (yourChoice){
+                        case "c1": theCemetery(); break;
+                        case "c2": break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "tomb":
+                    switch (yourChoice){
+                        case "c1": theGrave(); break;
+                        case "c2": theShrine(); break;
+                        case "c3": theWindmill(); break;
+                        case "c4": tomb1(); break;
+                    } break;
+
+                case "tomb1":
+                    switch (yourChoice){
+                        case "c1": tomb2(); break;
+                        case "c2": theCemetery(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "tomb2":
+                    switch (yourChoice){
+                        case "c1": tomb3(); break;
+                        case "c2": theCemetery(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "tomb3":
+                    switch (yourChoice){
+                        case "c1": tomb4(); break;
+                        case "c2": theCemetery(); break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "tomb4":
+                    switch (yourChoice){
+                        case "c1": ghoul(); break;
+                        case "c2": break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
+
+                case "ghoul":
+                    switch (yourChoice){
+                        case "c1": ghoul(); break;
+                        case "c2": break;
+                        case "c3": break;
+                        case "c4": break;
+                    } break;
         }
     }
 
@@ -470,7 +578,7 @@ public class Main {
         if(playerHP>15){ //set max HP to 15
             playerHP = 15;
         }
-        hpAmountLabel.setText("" + playerHP);
+        playerUpdate();
 
         mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
                 "Your health is restored by " + restoredHP+ ".");
@@ -485,7 +593,8 @@ public class Main {
         buttonVisibility(4);
         actualLocation = "swimming";
         equippedWeapon = "Rusty Sword";
-        equippedWeaponLabel.setText("" + equippedWeapon);
+        playerUpdate();
+
         mainTextArea.setText("While swimming you found something shiny in the water.\n" +
                 "You decided to dive down to get that. \n" +
                 "You have found Rusty Sword!");
@@ -530,7 +639,9 @@ public class Main {
         actualLocation = "goblin";
         int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(playerPower));
         playerHP -= goblinHit;
-        hpAmountLabel.setText("" + playerHP);
+
+        playerUpdate();
+
         mainTextArea.setText("Goblin health: " + goblinHP +
                 "\n\nGoblin attacks you with loud shout! \n" +
                 "You lost " + goblinHit + " health points!" );
@@ -648,7 +759,7 @@ public class Main {
 
         mainTextArea.setText("You have found a Short Bow!");
         equippedWeapon = "Short Bow";
-        equippedWeaponLabel.setText("" + equippedWeapon);
+        playerUpdate();
 
         choice_1.setText("Look under the bed");
         choice_2.setText("<");
@@ -674,6 +785,7 @@ public class Main {
         buttonVisibility(2);
         actualLocation = "chestOpen";
         leatherArmor = true;
+        playerUpdate();
 
         mainTextArea.setText("You've opened the chest with a key from windmill!\n" +
                 "You have got nice and robust leather armor.");
@@ -683,53 +795,67 @@ public class Main {
     }
 
     public void theWindmill(){
+        buttonVisibility(4);
         actualLocation = "theWindmill";
 
-        mainTextArea.setText("You see something here is wrong. The doors leading to the mill are open.");
+        mainTextArea.setText("After few hours you reached Windmill.\n" +
+                "You see something here is wrong. \n\n" +
+                "The doors leading to the mill are open...");
+
         choice_1.setText("Go in");
-        choice_2.setText("Go to the cave");
-        choice_3.setText("Go to the giant tree");
-        choice_4.setText("Go to the meadow");
+        choice_2.setText("Go back to the cave");
+        choice_3.setText("Return to the giant tree");
+        choice_4.setText("Return the meadow");
     }
 
     public void insideTheWindmill(){
+        buttonVisibility(3);
         actualLocation = "insideTheWindmill";
 
-        mainTextArea.setText("The view inside is horrible. Everything is in total mess. You found ripped off " +
-                "upper part of human corpse. Everything is in blood, but you clearly noticed there " +
+        mainTextArea.setText("The view inside is horrible. Everything is in total mess.\n" +
+                " You found ripped off upper part of human corpse. \n" +
+                "Everything is in blood, but you clearly noticed there \n" +
                 "is a track of blood leading outside by rear exit. ");
+
         choice_1.setText("Check the corpse");
-        choice_2.setText("Check the track of blood");
-        choice_3.setText("Go outside");
-        choice_4.setVisible(false);
+        choice_2.setText("Go after the track of blood");
+        choice_3.setText("Go back outside");
     }
 
     public void theCorpse() {
+        buttonVisibility(1);
         actualLocation = "theCorpse";
+        key = true;
 
-        mainTextArea.setText("You've found a key.");
+        mainTextArea.setText("It is total abomination..." +
+                "\n ... but you've found a key.\n\n" +
+                "And also 2 health potions.");
+
+        healthPotions = 2;
+
         choice_1.setText("<");
-        choice_2.setVisible(false);
-        choice_3.setVisible(false);
-        choice_4.setVisible(false);
     }
 
     public void theCemetery() {
+        buttonVisibility(4);
         actualLocation = "theCemetery";
 
-        mainTextArea.setText("Track of blood led you to creepy cemetery. " +
-                "There is a small shrine with priest statue. Behind the statue is tomb with marble doors." +
+        mainTextArea.setText("Track of blood led you to creepy cemetery deep in the woods.\n\n " +
+                "There is a small shrine with priest statue. \n" +
+                "Behind the statue is tomb with marble doors." +
+                "It is getting late...\n\n" +
                 "You've noticed that one grave is dug up.");
+
         choice_1.setText("Go to the tomb");
         choice_2.setText("Check the grave");
         choice_3.setText("Check the statue");
-        choice_4.setText("Go to the mill");
+        choice_4.setText("Return to the mill");
     }
 
     public void theGrave() {
         actualLocation = "theGrave";
 
-        mainTextArea.setText("Here lies Edwyn Bones.");
+        mainTextArea.setText("Here lies Edwyn Bones.\n\nRIP");
         choice_1.setText("<");
         choice_2.setVisible(false);
         choice_3.setVisible(false);
@@ -737,6 +863,7 @@ public class Main {
     }
 
     public void theShrine() {
+        buttonVisibility(1);
         actualLocation = "theShrine";
 
         mainTextArea.setText("When you came closer to the shrine you see clearly that" +
@@ -749,29 +876,124 @@ public class Main {
         } else
             choice_2.setVisible(false);
 
-        choice_3.setVisible(false);
-        choice_4.setVisible(false);
+
+    }
+
+    public void tomb() {
+        buttonVisibility(3);
+        actualLocation = "tomb";
+        if (tombAvailable){
+            mainTextArea.setText("The doors opened with heavy noise.\n" +
+                    "You feel that something inside is dragging you there...");
+            choice_4.setVisible(true);
+            choice_4.setText("Enter");
+        } else {
+            mainTextArea.setText("The doors won't budge.");
+
+            choice_1.setText("Check the grave");
+            choice_2.setText("Check the shrine");
+            choice_3.setText("Return the windmill");
+        }
     }
 
     public void tombUnlock() {
+        buttonVisibility(2);
         actualLocation = "tombUnlock";
+        tombAvailable = true;
 
         mainTextArea.setText("Eureka! When you put the gem inside priest's hand," +
                 "the doors leading to the Tomb opened.");
         choice_1.setText("Enter the tomb");
-        choice_3.setText("Go to windmill");
-        choice_4.setText("Go to the cave");
+        choice_2.setText("Go to windmill");
+    }
+
+    public void tomb1() {
+        buttonVisibility(2);
+        actualLocation = "tomb1";
+
+        mainTextArea.setText("You stepped inside cold, dark tomb.\n" +
+                "You realised that you can't hear any noise from down there.\n" +
+                "Maybe it is a good sign?\n\nRight?");
+
+        choice_1.setText("Go deeper");
+        choice_2.setText("Return to cemetery");
+    }
+
+    public void tomb2() {
+        buttonVisibility(2);
+        actualLocation = "tomb2";
+
+        mainTextArea.setText("It is getting darker and darker.");
+
+        choice_1.setText("Go deeper");
+        choice_2.setText("Return to cemetery");
+    }
+
+    public void tomb3() {
+        buttonVisibility(2);
+        actualLocation = "tomb2";
+
+        mainTextArea.setText("Your eye vision is slowly adapting \n" +
+                "to that extreme darkness.");
+
+        choice_1.setText("Go deeper");
+        choice_2.setText("Return to cemetery");
+    }
+
+    public void tomb4() {
+        buttonVisibility(2);
+        actualLocation = "tomb2";
+
+        mainTextArea.setText("On the end of dark corridor you noticed kind of move. \n" +
+                "You see pale skin in the shadow.");
+
+        choice_1.setText("Go check");
+        choice_2.setText("Return to cemetery");
     }
 
     public void ghoul() {
+        buttonVisibility(2);
         actualLocation = "ghoul";
 
-        mainTextArea.setText("You 've encountered a Ghoul!");
+        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                "You 've encountered a Ghoul!");
+
         choice_1.setText("Attack");
         choice_2.setText("Run");
-        choice_3.setVisible(false);
-        choice_4.setVisible(false);
     }
+
+        public void ghoulAttack() {
+            buttonVisibility(2);
+            actualLocation = "ghoul";
+
+            mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                    "You 've encountered a Ghoul!");
+
+            choice_1.setText("Attack");
+            choice_2.setText("Run");
+        }
+
+        public void ghoulFight() {
+            buttonVisibility(2);
+            actualLocation = "ghoul";
+
+            mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                    "You 've encountered a Ghoul!");
+
+            choice_1.setText("Attack");
+            choice_2.setText("Run");
+        }
+
+        public void healthPotion() {
+            buttonVisibility(2);
+            actualLocation = "ghoul";
+
+            mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                    "You 've encountered a Ghoul!");
+
+            choice_1.setText("Attack");
+            choice_2.setText("Run");
+        }
 
 
     public void death() {
@@ -798,8 +1020,11 @@ public class Main {
             return false;
     }
 
-    public void sleep() throws InterruptedException {
-        Thread.sleep(2000);
+    public boolean isGhoulAlive() {
+        if (ghoulHP > 0){
+            return true;
+        } else
+            return false;
     }
 
     public void buttonVisibility(int i){
