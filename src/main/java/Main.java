@@ -7,11 +7,14 @@ public class Main {
 
     JFrame mainWindow;
     Container con;
-    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerInterfacePanel, hudPanel;
-    JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel, equippedArmorLabel, armorLabel;
+    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel,
+            playerInterfacePanel, hudPanel;
+    JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel,
+            equippedArmorLabel, armorLabel;
     Font titleFont = new Font("Times New Roman", Font.PLAIN,90); // creates new font for title with size - 90
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton, inventoryButton, journalButton;
+    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton,
+            inventoryButton, journalButton, settingsButton;
     JTextArea mainTextArea;
 
     int screenSizeX = 1000;
@@ -96,28 +99,39 @@ public class Main {
         titlePanel.setVisible(false); // firstly we have to hide everything from title screen
         startButtonPanel.setVisible(false);
 
+        //next we add main text Panel and main text area on it
+        int mainTextPanelWidth = 800;
+        int mainTextPanelHeight = 250;
+        int startMainTextPanelX = (screenSizeX - mainTextPanelWidth) / 2;
+        int startMainTextPanelY = 100 + 50;
+
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(100,110,600,250);
+        mainTextPanel.setBounds(startMainTextPanelX,startMainTextPanelY,mainTextPanelWidth,
+                mainTextPanelHeight);
         mainTextPanel.setBackground(Color.black);
 
-        int startMainTextAreaX = 100;
-        int startMainTextAreaY = 150;
-        int mainTextAreaWidth = screenSizeX - startMainTextAreaX;
-        int mainTextAreaHeight = 350;
-
         mainTextArea = new JTextArea("This is main text area");
-        mainTextArea.setBounds( startMainTextAreaX,startMainTextAreaY,mainTextAreaWidth,mainTextAreaHeight);
+        mainTextArea.setBounds( startMainTextPanelX,startMainTextPanelY,mainTextPanelWidth,
+                mainTextPanelHeight);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
         mainTextArea.setFont(normalFont);
         mainTextArea.setLineWrap(true);
 
+
+        //next choice button panel is to set up
+        int choiceButtonPanelWidth = 600;
+        int choiceButtonPaneHeight = 150;
+        int choiceButtonPanePanelX = (screenSizeX - choiceButtonPanelWidth) / 2;
+        int choiceButtonPanePanelY = screenSizeY - choiceButtonPaneHeight - 50;
+
         choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds(200,450,600,150);
+        choiceButtonPanel.setBounds(choiceButtonPanePanelX,choiceButtonPanePanelY,choiceButtonPanelWidth,
+                choiceButtonPaneHeight);
         choiceButtonPanel.setBackground(Color.black);
         choiceButtonPanel.setLayout(new GridLayout(4,1)); // set grid layout on that panel to 4 rows and 1 column
 
-
+        //now every single (4) choice button is added
         choice_1 = new JButton("Choice 1");
         choice_1.setBackground(Color.BLACK);
         choice_1.setForeground(Color.white);
@@ -149,6 +163,9 @@ public class Main {
         choiceButtonPanel.add(choice_4);
         choice_4.addActionListener(choiceHandler);
         choice_4.setActionCommand("c4");
+
+        //next we add player interface panel in the left upper corner
+        int playe
 
 
         playerInterfacePanel = new JPanel();
@@ -213,6 +230,14 @@ public class Main {
         journalButton.setForeground(Color.white);
         journalButton.setFont(normalFont);
         playerInterfacePanel.add(journalButton);
+//        choice_4.addActionListener(choiceHandler);
+//        choice_4.setActionCommand("c4");
+
+        settingsButton = new JButton("Settings");
+        settingsButton.setBackground(Color.BLACK);
+        settingsButton.setForeground(Color.white);
+        settingsButton.setFont(normalFont);
+        playerInterfacePanel.add(settingsButton);
 //        choice_4.addActionListener(choiceHandler);
 //        choice_4.setActionCommand("c4");
 
