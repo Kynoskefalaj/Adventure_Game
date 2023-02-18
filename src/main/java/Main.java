@@ -11,7 +11,7 @@ public class Main {
     JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel;
     Font titleFont = new Font("Times New Roman", Font.PLAIN,90); // creates new font for title with size - 90
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, choice_1, choice_2, choice_3, choice_4;
+    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton, inventoryButton;
     JTextArea mainTextArea;
 
     int playerHP, playerPower, playerArmor;
@@ -133,7 +133,7 @@ public class Main {
         playerPanel = new JPanel();
         playerPanel.setBounds(100,15,600,50);
         playerPanel.setBackground(Color.black);
-        playerPanel.setLayout(new GridLayout(1, 4));
+        playerPanel.setLayout(new GridLayout(2, 4));
 
 
         hpLabel = new JLabel("HP: ");
@@ -155,6 +155,22 @@ public class Main {
         equippedWeaponLabel.setForeground(Color.white);
         equippedWeaponLabel.setFont(normalFont);
         playerPanel.add(equippedWeaponLabel);
+
+        statisticsButton = new JButton("Statistics");
+        statisticsButton.setBackground(Color.BLACK);
+        statisticsButton.setForeground(Color.white);
+        statisticsButton.setFont(normalFont);
+        playerPanel.add(statisticsButton);
+//        choice_4.addActionListener(choiceHandler);
+//        choice_4.setActionCommand("c4");
+
+        inventoryButton = new JButton("Statistics");
+        inventoryButton.setBackground(Color.BLACK);
+        inventoryButton.setForeground(Color.white);
+        inventoryButton.setFont(normalFont);
+        playerPanel.add(inventoryButton);
+//        choice_4.addActionListener(choiceHandler);
+//        choice_4.setActionCommand("c4");
 
 
         mainTextPanel.add(mainTextArea);
@@ -353,10 +369,10 @@ public class Main {
                             }
                             break;
                         case "c2":
-                            if (isGoblinAlive()) {
-                                playerAttacksGoblin();
-                            } else {
+                            playerAttacksGoblin();
+                            if (goblinHP <0){
                                 goblinDown();
+                                break;
                             }
                             break;
                         case "c3":
@@ -403,19 +419,14 @@ public class Main {
                                 break;
                             } else {
                                 death();
+                                break;
                             }
-                            break;
                         case "c2":
-                            playerAttacksGoblin();
-                            if (isGoblinAlive()) {
-                                goblinAttack();
-                                if (isPlayerAlive()) {
-                                    break;
-                                } else {
-                                    death();
-                                }
+                            goblinAttack();
+                            if (isPlayerAlive()) {
+                                break;
                             } else {
-                                goblinDown();
+                                death();
                             }
                             break;
                         case "c3":
@@ -454,7 +465,7 @@ public class Main {
                             theCave();
                             break;
                         case "c4":
-                            crossroads();
+                            giantRock();
                             break;
                     }
                     break;
@@ -886,6 +897,7 @@ public class Main {
         choice_2.setText("Attack");
         choice_3.setText("Run");
         choice_4.setText("Climb on giant rock");
+
     }
 
     public void goblinDown(){
@@ -1293,5 +1305,8 @@ public class Main {
         equippedWeaponLabel.setText(("" + equippedWeapon));
     }
 
+    public void waitThreeSeconds() throws InterruptedException {
+        Thread.sleep(3000);
+    }
 
 }
