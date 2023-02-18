@@ -7,16 +7,19 @@ public class Main {
 
     JFrame mainWindow;
     Container con;
-    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel;
-    JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel;
+    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerInterfacePanel, hudPanel;
+    JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel, equippedArmorLabel, armorLabel;
     Font titleFont = new Font("Times New Roman", Font.PLAIN,90); // creates new font for title with size - 90
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton, inventoryButton;
+    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton, inventoryButton, journalButton;
     JTextArea mainTextArea;
+
+    int screenSizeX = 1000;
+    int screenSizeY = 650;
 
     int playerHP, playerPower, playerArmor;
     int goblinHP, goblinPower;
-    String equippedWeapon;
+    String equippedWeapon, equippedArmor;
     String actualLocation;
     boolean rope;
     boolean key;
@@ -35,18 +38,24 @@ public class Main {
         new Main();//constructor call
     }
 
-    public Main(){ //constructor
+    public Main(){ //class constructor
 
         mainWindow = new JFrame(); //creating new instance of JFrame
-        mainWindow.setSize(800,600);
+        mainWindow.setSize(screenSizeX,screenSizeY);
         mainWindow.getContentPane().setBackground(Color.BLACK);
         mainWindow.setVisible(true);
         mainWindow.setLayout(null); //disables default layout because I want to customize game layout
         con = mainWindow.getContentPane();
 
         // creates panel where will be title
+        int titlePanelWidth = 600;
+        int titlePanelHeight = 150;
+        int titlePanelStartX = (screenSizeX - titlePanelWidth) / 2;
+        int titlePanelStartY = ((screenSizeY - titlePanelHeight) / 2 - 70);
+
+
         titlePanel = new JPanel();
-        titlePanel.setBounds(100,100,600,150);
+        titlePanel.setBounds(titlePanelStartX,titlePanelStartY,titlePanelWidth,titlePanelHeight);
         titlePanel.setBackground(Color.black);
 
         // creates label with title name
@@ -55,8 +64,15 @@ public class Main {
         titleLabel.setFont(titleFont);
 
         // creates panel for start button
+        int startButtonPanelWidth = 200;
+        int startButtonPanelHeight = 100;
+        int startButtonPanelStartX = (screenSizeX - startButtonPanelWidth) / 2;
+        int startButtonPanelStartY = (screenSizeY - startButtonPanelHeight)/2 + 70;
+
+
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(300, 400, 200,100);
+        startButtonPanel.setBounds(startButtonPanelStartX,startButtonPanelStartY,
+                startButtonPanelWidth,startButtonPanelHeight);
         startButtonPanel.setBackground(Color.black);
 
         // creates start button
@@ -81,18 +97,23 @@ public class Main {
         startButtonPanel.setVisible(false);
 
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(100,100,600,250);
+        mainTextPanel.setBounds(100,110,600,250);
         mainTextPanel.setBackground(Color.black);
 
+        int startMainTextAreaX = 100;
+        int startMainTextAreaY = 150;
+        int mainTextAreaWidth = screenSizeX - startMainTextAreaX;
+        int mainTextAreaHeight = 350;
+
         mainTextArea = new JTextArea("This is main text area");
-        mainTextArea.setBounds(100,100,600,250);
+        mainTextArea.setBounds( startMainTextAreaX,startMainTextAreaY,mainTextAreaWidth,mainTextAreaHeight);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
         mainTextArea.setFont(normalFont);
         mainTextArea.setLineWrap(true);
 
         choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds(100,350,600,150);
+        choiceButtonPanel.setBounds(200,450,600,150);
         choiceButtonPanel.setBackground(Color.black);
         choiceButtonPanel.setLayout(new GridLayout(4,1)); // set grid layout on that panel to 4 rows and 1 column
 
@@ -130,51 +151,75 @@ public class Main {
         choice_4.setActionCommand("c4");
 
 
-        playerPanel = new JPanel();
-        playerPanel.setBounds(100,15,600,50);
-        playerPanel.setBackground(Color.black);
-        playerPanel.setLayout(new GridLayout(2, 4));
+        playerInterfacePanel = new JPanel();
+        playerInterfacePanel.setBounds(400,15,300,100);
+        playerInterfacePanel.setBackground(Color.black);
+        playerInterfacePanel.setLayout(new GridLayout(4, 1));
+
+        hudPanel = new JPanel();
+        hudPanel.setBounds(100,15,300,100);
+        hudPanel.setBackground(Color.black);
+        hudPanel.setLayout(new GridLayout(3, 2));
 
 
         hpLabel = new JLabel("HP: ");
         hpLabel.setForeground(Color.white);
         hpLabel.setFont(normalFont);
-        playerPanel.add(hpLabel);
+        hudPanel.add(hpLabel);
 
         hpAmountLabel = new JLabel();
         hpAmountLabel.setForeground(Color.white);
         hpAmountLabel.setFont(normalFont);
-        playerPanel.add(hpAmountLabel);
+        hudPanel.add(hpAmountLabel);
 
         weaponLabel = new JLabel("Weapon: ");
         weaponLabel.setForeground(Color.white);
         weaponLabel.setFont(normalFont);
-        playerPanel.add(weaponLabel);
+        hudPanel.add(weaponLabel);
 
         equippedWeaponLabel = new JLabel();
         equippedWeaponLabel.setForeground(Color.white);
         equippedWeaponLabel.setFont(normalFont);
-        playerPanel.add(equippedWeaponLabel);
+        hudPanel.add(equippedWeaponLabel);
+
+        armorLabel = new JLabel("Armor: ");
+        armorLabel.setForeground(Color.white);
+        armorLabel.setFont(normalFont);
+        hudPanel.add(armorLabel);
+
+        equippedArmorLabel = new JLabel();
+        equippedArmorLabel.setForeground(Color.white);
+        equippedArmorLabel.setFont(normalFont);
+        hudPanel.add(equippedArmorLabel);
 
         statisticsButton = new JButton("Statistics");
         statisticsButton.setBackground(Color.BLACK);
         statisticsButton.setForeground(Color.white);
         statisticsButton.setFont(normalFont);
-        playerPanel.add(statisticsButton);
+        playerInterfacePanel.add(statisticsButton);
 //        choice_4.addActionListener(choiceHandler);
 //        choice_4.setActionCommand("c4");
 
-        inventoryButton = new JButton("Statistics");
+        inventoryButton = new JButton("Inventory");
         inventoryButton.setBackground(Color.BLACK);
         inventoryButton.setForeground(Color.white);
         inventoryButton.setFont(normalFont);
-        playerPanel.add(inventoryButton);
+        playerInterfacePanel.add(inventoryButton);
+//        choice_4.addActionListener(choiceHandler);
+//        choice_4.setActionCommand("c4");
+
+        journalButton = new JButton("Journal");
+        journalButton.setBackground(Color.BLACK);
+        journalButton.setForeground(Color.white);
+        journalButton.setFont(normalFont);
+        playerInterfacePanel.add(journalButton);
 //        choice_4.addActionListener(choiceHandler);
 //        choice_4.setActionCommand("c4");
 
 
         mainTextPanel.add(mainTextArea);
-        con.add(playerPanel);
+        con.add(playerInterfacePanel);
+        con.add(hudPanel);
         con.add(mainTextPanel);
         con.add(choiceButtonPanel);
 
@@ -187,6 +232,7 @@ public class Main {
         playerHP = 15;
         playerCoins = 0;
         equippedWeapon = "Knife";
+        equippedArmor = "Worn Jacket";
 
         switch (equippedWeapon) {
             case "Knife" -> playerPower = 3;
@@ -197,6 +243,8 @@ public class Main {
 
         equippedWeaponLabel.setText(equippedWeapon);
         hpAmountLabel.setText("" + playerHP);
+        equippedArmorLabel.setText(equippedArmor);
+
         rope = false;
         key = false;
         leatherArmor = false;
