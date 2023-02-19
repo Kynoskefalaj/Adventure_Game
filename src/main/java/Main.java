@@ -8,14 +8,17 @@ public class Main {
     JFrame mainWindow;
     Container con;
     JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel,
-            playerInterfacePanel, hudPanel;
+            playerInterfacePanel, hudPanel, playerStatisticsHeaderPanel,
+            playerStatsPanel, statisticsReturnButtonPanel;
     JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel,
-            equippedArmorLabel, armorLabel;
-    Font titleFont = new Font("Times New Roman", Font.PLAIN,90); // creates new font for title with size - 90
+            equippedArmorLabel, armorLabel, playerStatsLabel;
+    Font titleFont = new Font("Times New Roman", Font.PLAIN, 90); // creates new font for title with size - 90
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
+    Font headerFont = new Font("Times New Roman", Font.PLAIN, 60);
     JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton,
-            inventoryButton, journalButton, settingsButton;
+            inventoryButton, journalButton, settingsButton, statisticsReturnButton;
     JTextArea mainTextArea;
+    JTable playerStatisticsTable;
 
     int screenSizeX = 1000;
     int screenSizeY = 650;
@@ -30,21 +33,25 @@ public class Main {
     boolean gem;
     boolean goblinAlive;
     boolean tombAvailable = false;
-    int playerCoins; int healthPotions;
+    int playerCoins;
+    int healthPotions;
     int ghoulHP, ghoulPower;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
+    StatisticsButtonHandler statsHandler = new StatisticsButtonHandler();
+    ReturnHandler returnHandler = new ReturnHandler();
+
 
     public static void main(String[] args) {
 
         new Main();//constructor call
     }
 
-    public Main(){ //class constructor
+    public Main() { //class constructor
 
         mainWindow = new JFrame(); //creating new instance of JFrame
-        mainWindow.setSize(screenSizeX,screenSizeY);
+        mainWindow.setSize(screenSizeX, screenSizeY);
         mainWindow.getContentPane().setBackground(Color.BLACK);
         mainWindow.setVisible(true);
         mainWindow.setLayout(null); //disables default layout because I want to customize game layout
@@ -58,7 +65,7 @@ public class Main {
 
 
         titlePanel = new JPanel();
-        titlePanel.setBounds(titlePanelStartX,titlePanelStartY,titlePanelWidth,titlePanelHeight);
+        titlePanel.setBounds(titlePanelStartX, titlePanelStartY, titlePanelWidth, titlePanelHeight);
         titlePanel.setBackground(Color.black);
 
         // creates label with title name
@@ -70,12 +77,12 @@ public class Main {
         int startButtonPanelWidth = 200;
         int startButtonPanelHeight = 100;
         int startButtonPanelStartX = (screenSizeX - startButtonPanelWidth) / 2;
-        int startButtonPanelStartY = (screenSizeY - startButtonPanelHeight)/2 + 70;
+        int startButtonPanelStartY = (screenSizeY - startButtonPanelHeight) / 2 + 70;
 
 
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(startButtonPanelStartX,startButtonPanelStartY,
-                startButtonPanelWidth,startButtonPanelHeight);
+        startButtonPanel.setBounds(startButtonPanelStartX, startButtonPanelStartY,
+                startButtonPanelWidth, startButtonPanelHeight);
         startButtonPanel.setBackground(Color.black);
 
         // creates start button
@@ -94,24 +101,24 @@ public class Main {
         con.add(startButtonPanel); //adds start button panel to display
     }
 
-    public void createGameScreen(){
+    public void createGameScreen() {
 
         titlePanel.setVisible(false); // firstly we have to hide everything from title screen
         startButtonPanel.setVisible(false);
 
         //next we add main text Panel and main text area on it
         int mainTextPanelWidth = 800;
-        int mainTextPanelHeight = 250;
+        int mainTextPanelHeight = 300;
         int startMainTextPanelX = (screenSizeX - mainTextPanelWidth) / 2;
-        int startMainTextPanelY = 100 + 50;
+        int startMainTextPanelY = 100 + 30;
 
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(startMainTextPanelX,startMainTextPanelY,mainTextPanelWidth,
+        mainTextPanel.setBounds(startMainTextPanelX, startMainTextPanelY, mainTextPanelWidth,
                 mainTextPanelHeight);
         mainTextPanel.setBackground(Color.black);
 
         mainTextArea = new JTextArea("This is main text area");
-        mainTextArea.setBounds( startMainTextPanelX,startMainTextPanelY,mainTextPanelWidth,
+        mainTextArea.setBounds(startMainTextPanelX, startMainTextPanelY, mainTextPanelWidth,
                 mainTextPanelHeight);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
@@ -126,10 +133,10 @@ public class Main {
         int choiceButtonPanePanelY = screenSizeY - choiceButtonPaneHeight - 50;
 
         choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds(choiceButtonPanePanelX,choiceButtonPanePanelY,choiceButtonPanelWidth,
+        choiceButtonPanel.setBounds(choiceButtonPanePanelX, choiceButtonPanePanelY, choiceButtonPanelWidth,
                 choiceButtonPaneHeight);
         choiceButtonPanel.setBackground(Color.black);
-        choiceButtonPanel.setLayout(new GridLayout(4,1)); // set grid layout on that panel to 4 rows and 1 column
+        choiceButtonPanel.setLayout(new GridLayout(4, 1)); // set grid layout on that panel to 4 rows and 1 column
 
         //now every single (4) choice button is added
         choice_1 = new JButton("Choice 1");
@@ -164,21 +171,31 @@ public class Main {
         choice_4.addActionListener(choiceHandler);
         choice_4.setActionCommand("c4");
 
-        //next we add player interface panel in the left upper corner
-        int playe
-
+        //next we add player interface panel in the right upper corner
+        int playerInterfacePanelWidth = 300;
+        int playerInterfacePanelHeight = 100;
+        int playerHudAndInterfaceOffset = 100;
+        int playerInterfacePanelStartX = screenSizeX - playerInterfacePanelWidth - playerHudAndInterfaceOffset;
+        int playerInterfacePanelStartY = 15;
 
         playerInterfacePanel = new JPanel();
-        playerInterfacePanel.setBounds(400,15,300,100);
+        playerInterfacePanel.setBounds(playerInterfacePanelStartX, playerInterfacePanelStartY,
+                playerInterfacePanelWidth, playerInterfacePanelHeight);
         playerInterfacePanel.setBackground(Color.black);
         playerInterfacePanel.setLayout(new GridLayout(4, 1));
 
+        //next we add hud panel in the left upper corner
+        int hudPanelWidth = playerInterfacePanelWidth;
+        int hudPanelHeight = playerInterfacePanelHeight;
+        int hudPanelStartX = playerHudAndInterfaceOffset;
+        int hudPanelStartY = playerInterfacePanelStartY;
+
         hudPanel = new JPanel();
-        hudPanel.setBounds(100,15,300,100);
+        hudPanel.setBounds(hudPanelStartX, hudPanelStartY, hudPanelWidth, hudPanelHeight);
         hudPanel.setBackground(Color.black);
         hudPanel.setLayout(new GridLayout(3, 2));
 
-
+        //next objects added to interface panel and hud panel
         hpLabel = new JLabel("HP: ");
         hpLabel.setForeground(Color.white);
         hpLabel.setFont(normalFont);
@@ -214,7 +231,7 @@ public class Main {
         statisticsButton.setForeground(Color.white);
         statisticsButton.setFont(normalFont);
         playerInterfacePanel.add(statisticsButton);
-//        choice_4.addActionListener(choiceHandler);
+        statisticsButton.addActionListener(statsHandler);
 //        choice_4.setActionCommand("c4");
 
         inventoryButton = new JButton("Inventory");
@@ -253,7 +270,107 @@ public class Main {
         crossroads();
     }
 
-    public void playerSetup(){
+    public void createStatsScreen() {
+        //unsetting every object on the screen
+        mainTextPanel.setVisible(false);
+        choiceButtonPanel.setVisible(false);
+        playerInterfacePanel.setVisible(false);
+        hudPanel.setVisible(false);
+
+        //setting up table with statistics
+        String[] columnNames = {"", "", "", ""};
+
+        Object[][] statistics = {
+                {"Health", "" + playerHP, "Armor", "" + playerArmor},
+                {"Power", "" + playerPower, "Strength", "11"},
+                {"Intelligence", "12", "Wisdom", "9"},
+                {"Agility", "14", "Stamina", "10"},
+                {"Spirit", "7", "Perception", "15"}
+        };
+
+        playerStatisticsTable = new JTable(statistics, columnNames);
+        playerStatisticsTable.setBackground(Color.black);
+        playerStatisticsTable.setForeground(Color.white);
+        playerStatisticsTable.setFont(normalFont);
+        playerStatisticsTable.setRowHeight(70);
+        playerStatisticsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        playerStatisticsTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+        playerStatisticsTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        playerStatisticsTable.setShowGrid(false);
+        playerStatisticsTable.setEnabled(false);
+
+
+//        playerStatisticsTable.setPreferredScrollableViewportSize(new Dimension(600,250));
+
+        //add header "statistics"
+        int headerWidth = 400;
+        int headerHeight = 80;
+        int headerStartX = (screenSizeX - headerWidth) / 2;
+        int headerStartY = 20;
+
+        playerStatisticsHeaderPanel = new JPanel();
+        playerStatisticsHeaderPanel.setBounds(headerStartX, headerStartY,
+                headerWidth, headerHeight);
+        playerStatisticsHeaderPanel.setBackground(Color.black);
+
+        playerStatsLabel = new JLabel("Statistics");
+        playerStatsLabel.setForeground(Color.white);
+        playerStatsLabel.setFont(headerFont);
+
+        playerStatisticsHeaderPanel.add(playerStatsLabel);
+
+        //add statistics panel
+        int playerStatsPanelWidth = 600;
+        int playerStatsPanelHeight = 350;
+        int playerStatsPanelStartX = (screenSizeX - playerStatsPanelWidth) / 2 + 20;
+        int playerStatsPanelStartY = (screenSizeY - playerStatsPanelHeight) / 2 - 30;
+
+        playerStatsPanel = new JPanel();
+        playerStatsPanel.setBounds(playerStatsPanelStartX, playerStatsPanelStartY,
+                playerStatsPanelWidth, playerStatsPanelHeight);
+        playerStatsPanel.setBackground(Color.black);
+//        playerStatsPanel.setLayout(new GridLayout(4, 4));
+
+        playerStatsPanel.add(playerStatisticsTable);
+
+
+        //add return button panel
+        int returnButtonPanelWidth = 200;
+        int returnButtonPanelHeight = 50;
+        int returnButtonPanelStartX = (screenSizeX - returnButtonPanelWidth) / 2;
+        int returnButtonPaneStartY = screenSizeY - returnButtonPanelHeight - 85;
+
+        statisticsReturnButtonPanel = new JPanel();
+        statisticsReturnButtonPanel.setBounds(returnButtonPanelStartX, returnButtonPaneStartY,
+                returnButtonPanelWidth, returnButtonPanelHeight);
+        statisticsReturnButtonPanel.setBackground(Color.black);
+
+        statisticsReturnButton = new JButton("Return");
+        statisticsReturnButton.setBackground(Color.BLACK);
+        statisticsReturnButton.setForeground(Color.white);
+        statisticsReturnButton.setFont(normalFont);
+        statisticsReturnButton.setFocusPainted(false);
+        statisticsReturnButton.addActionListener(returnHandler); // when you click startButton it recognizes that click and calls tsHandler
+        statisticsReturnButtonPanel.add(statisticsReturnButton);
+
+        //assign objects to main container (screen)
+        con.add(playerStatisticsHeaderPanel);
+        con.add(playerStatsPanel);
+        con.add(statisticsReturnButtonPanel);
+    }
+
+    public void returnToGame(){
+        statisticsReturnButtonPanel.setVisible(false);
+        playerStatsPanel.setVisible(false);
+        playerStatisticsHeaderPanel.setVisible(false);
+
+        mainTextPanel.setVisible(true);
+        choiceButtonPanel.setVisible(true);
+        playerInterfacePanel.setVisible(true);
+        hudPanel.setVisible(true);
+    }
+
+    public void playerSetup() {
         playerHP = 15;
         playerCoins = 0;
         equippedWeapon = "Knife";
@@ -278,7 +395,7 @@ public class Main {
 
     }
 
-    public void monstersSetup(){
+    public void monstersSetup() {
         goblinHP = 45;
         goblinPower = 10;
         goblinAlive = true;
@@ -287,7 +404,7 @@ public class Main {
         ghoulPower = 10;
     }
 
-    public class TitleScreenHandler implements ActionListener{
+    public class TitleScreenHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -443,7 +560,7 @@ public class Main {
                             break;
                         case "c2":
                             playerAttacksGoblin();
-                            if (goblinHP <0){
+                            if (goblinHP < 0) {
                                 goblinDown();
                                 break;
                             }
@@ -819,7 +936,23 @@ public class Main {
         }
     }
 
-    public void crossroads(){
+    public class StatisticsButtonHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            createStatsScreen();
+        }
+    }
+
+    public class ReturnHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            returnToGame();
+        }
+    }
+
+    public void crossroads() {
         buttonVisibility(4);
         actualLocation = "crossroads";
 
@@ -845,7 +978,7 @@ public class Main {
         choice_4.setText("Return to the crossroads");
     }
 
-    public void attackGuard(){
+    public void attackGuard() {
         buttonVisibility(4);
         actualLocation = "attackGuard";
         int guardHit = new java.util.Random().nextInt(4);
@@ -862,7 +995,7 @@ public class Main {
         choice_4.setText("Return to the woods");
     }
 
-    public void meadow(){
+    public void meadow() {
         buttonVisibility(4);
         actualLocation = "meadow";
 
@@ -874,18 +1007,18 @@ public class Main {
         choice_4.setText("Go to the crossroads");
     }
 
-    public void river(){
+    public void river() {
         buttonVisibility(4);
         actualLocation = "river";
         int restoredHP = new java.util.Random().nextInt(4);
         playerHP += restoredHP;
-        if(playerHP>15){ //set max HP to 15
+        if (playerHP > 15) { //set max HP to 15
             playerHP = 15;
         }
         playerUpdate();
 
         mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
-                "Your health is restored by " + restoredHP+ ".");
+                "Your health is restored by " + restoredHP + ".");
 
         choice_1.setText("Hop in to the water");
         choice_2.setText("Drink more");
@@ -893,7 +1026,7 @@ public class Main {
         choice_4.setText("Go to the crossroads");
     }
 
-    public void swimming(){
+    public void swimming() {
         buttonVisibility(4);
         actualLocation = "swimming";
         equippedWeapon = "Rusty Sword";
@@ -909,7 +1042,7 @@ public class Main {
         choice_4.setText("Go to meadow");
     }
 
-    public void theCave(){
+    public void theCave() {
         buttonVisibility(4);
         actualLocation = "theCave";
 
@@ -922,9 +1055,9 @@ public class Main {
         choice_4.setText("Go to meadow");
     }
 
-    public void goblin(){
+    public void goblin() {
         buttonVisibility(4);
-        if (goblinAlive){
+        if (goblinAlive) {
             actualLocation = "goblin";
 
             mainTextArea.setText("You encountered horrifying, mad Goblin!");
@@ -932,13 +1065,13 @@ public class Main {
             choice_1.setText("Try to comfort him");
             choice_2.setText("Attack");
             choice_3.setText("Run");
-            choice_4.setText("Climb on giant rock");}
-        else {
+            choice_4.setText("Climb on giant rock");
+        } else {
             goblinDown();
         }
     }
 
-    public void goblinAttack(){
+    public void goblinAttack() {
         buttonVisibility(4);
         actualLocation = "goblin";
         int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(playerPower));
@@ -948,7 +1081,7 @@ public class Main {
 
         mainTextArea.setText("Goblin health: " + goblinHP +
                 "\n\nGoblin attacks you with loud shout! \n" +
-                "You lost " + goblinHit + " health points!" );
+                "You lost " + goblinHit + " health points!");
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
@@ -956,7 +1089,7 @@ public class Main {
         choice_4.setText("Climb on giant rock");
     }
 
-    public void playerAttacksGoblin(){
+    public void playerAttacksGoblin() {
         buttonVisibility(4);
         actualLocation = "playerAttacksGoblin";
         int playerHit = new java.util.Random().nextInt(playerPower);
@@ -964,7 +1097,7 @@ public class Main {
 
         mainTextArea.setText("Goblin health: " + goblinHP +
                 "\n\nYou attack your opponent with " + equippedWeapon + "\n" +
-                "Goblin lost " + playerHit + " health points!" );
+                "Goblin lost " + playerHit + " health points!");
 
         choice_1.setText("Try to comfort him");
         choice_2.setText("Attack");
@@ -973,14 +1106,14 @@ public class Main {
 
     }
 
-    public void goblinDown(){
+    public void goblinDown() {
         buttonVisibility(4);
         actualLocation = "goblinDown";
         gem = true;
         goblinAlive = false;
 
         mainTextArea.setText("You beat this filthy creature! " + "" +
-                        "\n You obtained large shiny gem!");
+                "\n You obtained large shiny gem!");
 
         choice_1.setText("Go to giant tree");
         choice_2.setText("Go to the river bank");
@@ -988,7 +1121,7 @@ public class Main {
         choice_4.setText("Climb on giant rock");
     }
 
-    public void giantRock(){
+    public void giantRock() {
         buttonVisibility(2);
         actualLocation = "giantRock";
 
@@ -998,16 +1131,15 @@ public class Main {
         rope = true;
 
         choice_1.setText("Leap off");
-        if (equippedWeapon == "Short Bow"){
+        if (equippedWeapon == "Short Bow") {
             choice_2.setText("Attack");
-        }
-        else
+        } else
             choice_2.setVisible(false);
         choice_3.setVisible(false);
         choice_4.setVisible(false);
     }
 
-    public void giantTree(){
+    public void giantTree() {
         buttonVisibility(3);
         actualLocation = "giantTree";
 
@@ -1019,15 +1151,14 @@ public class Main {
         choice_2.setText("Go to the river");
         choice_3.setText("Go to meadow");
 
-        if (rope == true){
+        if (rope == true) {
             choice_4.setVisible(true);
             choice_4.setText("Climb up");
-        }
-        else
+        } else
             choice_4.setVisible(false);
     }
 
-    public void treeHouse(){
+    public void treeHouse() {
         buttonVisibility(4);
         actualLocation = "treeHouse";
 
@@ -1042,7 +1173,7 @@ public class Main {
         choice_4.setText("Go to the windmill");
     }
 
-    public void theLetter(){
+    public void theLetter() {
         buttonVisibility(2);
         actualLocation = "theLetter";
 
@@ -1058,7 +1189,7 @@ public class Main {
         choice_2.setText("<");
     }
 
-    public void bed(){
+    public void bed() {
         buttonVisibility(2);
         actualLocation = "theLetter";
 
@@ -1070,7 +1201,7 @@ public class Main {
         choice_2.setText("<");
     }
 
-    public void theChest(){
+    public void theChest() {
         buttonVisibility(1);
         actualLocation = "theChest";
 
@@ -1086,7 +1217,7 @@ public class Main {
         choice_4.setVisible(false);
     }
 
-    public void chestOpen(){
+    public void chestOpen() {
         buttonVisibility(2);
         actualLocation = "chestOpen";
         leatherArmor = true;
@@ -1099,7 +1230,7 @@ public class Main {
 
     }
 
-    public void theWindmill(){
+    public void theWindmill() {
         buttonVisibility(4);
         actualLocation = "theWindmill";
 
@@ -1113,7 +1244,7 @@ public class Main {
         choice_4.setText("Return the meadow");
     }
 
-    public void insideTheWindmill(){
+    public void insideTheWindmill() {
         buttonVisibility(3);
         actualLocation = "insideTheWindmill";
 
@@ -1176,7 +1307,7 @@ public class Main {
                 "a priest represented by statue reach out his hand. His hand is the hand is arranged as " +
                 "if it is holding something. Something is missing here.");
         choice_1.setText("<");
-        if (gem = true){
+        if (gem = true) {
             choice_2.setVisible(true);
             choice_2.setText("Put a jewel in that hand");
         } else
@@ -1188,7 +1319,7 @@ public class Main {
     public void tomb() {
         buttonVisibility(3);
         actualLocation = "tomb";
-        if (tombAvailable){
+        if (tombAvailable) {
             mainTextArea.setText("The doors opened with heavy noise.\n" +
                     "You feel that something inside is dragging you there...");
             choice_4.setVisible(true);
@@ -1314,47 +1445,47 @@ public class Main {
     }
 
     public boolean isPlayerAlive() {
-        if (playerHP > 0){
+        if (playerHP > 0) {
             return true;
         } else
             return false;
     }
 
     public boolean isGoblinAlive() {
-        if (goblinHP > 0){
+        if (goblinHP > 0) {
             return true;
         } else
             return false;
     }
 
     public boolean isGhoulAlive() {
-        if (ghoulHP > 0){
+        if (ghoulHP > 0) {
             return true;
         } else
             return false;
     }
 
-    public void buttonVisibility(int i){
-        switch (i){
-            case 1 :
+    public void buttonVisibility(int i) {
+        switch (i) {
+            case 1:
                 choice_1.setVisible(true);
                 choice_2.setVisible(false);
                 choice_3.setVisible(false);
                 choice_4.setVisible(false);
                 break;
-            case 2 :
+            case 2:
                 choice_1.setVisible(true);
                 choice_2.setVisible(true);
                 choice_3.setVisible(false);
                 choice_4.setVisible(false);
                 break;
-            case 3 :
+            case 3:
                 choice_1.setVisible(true);
                 choice_2.setVisible(true);
                 choice_3.setVisible(true);
                 choice_4.setVisible(false);
                 break;
-            case 4 :
+            case 4:
                 choice_1.setVisible(true);
                 choice_2.setVisible(true);
                 choice_3.setVisible(true);
@@ -1363,13 +1494,13 @@ public class Main {
         }
     }
 
-    public void playerUpdate(){
+    public void playerUpdate() {
         switch (equippedWeapon) {
             case "Knife" -> playerPower = 3;
             case "Rusty Sword" -> playerPower = 5;
             case "Short Bow" -> playerPower = 9;
         }
-        if (leatherArmor){
+        if (leatherArmor) {
             playerArmor = 7;
         } else {
             playerArmor = 2;
@@ -1381,5 +1512,5 @@ public class Main {
     public void waitThreeSeconds() throws InterruptedException {
         Thread.sleep(3000);
     }
-
 }
+
