@@ -24,7 +24,7 @@ public class Main {
     int screenSizeX = 1000;
     int screenSizeY = 650;
 
-    int playerHP, playerPower, playerArmor, playerSpirit, playerStrength;
+    int playerHP, playerPower, playerArmor, playerSpirit, playerStrength, playerStamina;
     int goblinHP, goblinPower;
     String equippedWeapon, equippedArmor;
     String actualLocation;
@@ -280,10 +280,10 @@ public class Main {
         String[] columnNames = {"", "", "", ""};
 
         Object[][] statistics = {
-                {"Health", playerHP, "Armor", playerArmor},
-                {"Power", playerPower, "Strength", "4"},
+                {"Health", playerStamina, "Armor", playerArmor},
+                {"Power", playerPower, "Strength", playerStrength},
                 {"Intelligence", "6", "Wisdom", "3"},
-                {"Agility", "6", "Stamina", "5"},
+                {"Agility", "6", "Cunning", "5"},
                 {"Spirit", playerSpirit, "Perception", "4"}
         };
 
@@ -398,7 +398,7 @@ public class Main {
     }
 
     public void monstersSetup() {
-        goblinHP = 20;
+        goblinHP = 30;
         goblinPower = 10;
         goblinAlive = true;
 
@@ -449,6 +449,7 @@ public class Main {
                             }
                             break;
                         case "c2":
+                            ghoul();
                             break;
                         case "c3":
                             break;
@@ -595,6 +596,7 @@ public class Main {
                             }
                             break;
                         case "c3":
+                            goblinHP = 30;
                             theCave();
                             break;
                         case "c4":
@@ -622,6 +624,7 @@ public class Main {
                             }
                             break;
                         case "c3":
+                            goblinHP = 30;
                             theCave();
                             break;
                         case "c4":
@@ -807,12 +810,19 @@ public class Main {
                             theCemetery();
                             break;
                         case "c2":
-                            tombUnlock();
+                            prayer();
                             break;
                         case "c3":
+                            tombUnlock();
                             break;
                         case "c4":
                             break;
+                    }
+                    break;
+
+                case "prayer":
+                    if(Objects.equals(yourChoice, "c1")){
+                        theShrine();
                     }
                     break;
 
@@ -1110,8 +1120,8 @@ public class Main {
         actualLocation = "river";
         int restoredHP = new java.util.Random().nextInt(4);
         playerHP += restoredHP;
-        if (playerHP > 15) { //set max HP to 15
-            playerHP = 15;
+        if (playerHP > playerStamina) { //set max HP to 15
+            playerHP = playerStamina;
         }
         playerUpdate();
 
@@ -1190,7 +1200,7 @@ public class Main {
     public void playerAttacksGoblin() {
         buttonVisibility(4);
         actualLocation = "playerAttacksGoblin";
-        int playerHit = new java.util.Random().nextInt(playerPower);
+        int playerHit = playerStrength + new java.util.Random().nextInt(playerPower);
         goblinHP -= playerHit;
 
         mainTextArea.setText("Goblin health: " + goblinHP +
@@ -1398,20 +1408,32 @@ public class Main {
     }
 
     public void theShrine() {
-        buttonVisibility(1);
+        buttonVisibility(2);
         actualLocation = "theShrine";
 
         mainTextArea.setText("When you came closer to the shrine you see clearly that" +
                 "a priest represented by statue reach out his hand. His hand is the hand is arranged as " +
                 "if it is holding something. Something is missing here.");
         choice_1.setText("<");
+        choice_2.setText("Pray");
         if (gem) {
-            choice_2.setVisible(true);
-            choice_2.setText("Put a jewel in that hand");
+            choice_3.setVisible(true);
+            choice_3.setText("Put a jewel in that hand");
         } else
-            choice_2.setVisible(false);
+            choice_3.setVisible(false);
+    }
 
+    public void prayer() {
+        buttonVisibility(1);
+        actualLocation = "prayer";
 
+        mainTextArea.setText("Your prayer has been heard.\n" +
+                "Your stamina increases to 30 and Health Points as well!!!");
+        playerStamina = 30;
+        playerHP = playerStamina;
+        playerUpdate();
+
+        choice_1.setText("<");
     }
 
     public void tomb() {
@@ -1520,10 +1542,14 @@ public class Main {
     public void playerAttacksGhoul() {
         buttonVisibility(3);
         actualLocation = "playerAttacksGhoul";
-        int playerHit = Math.abs(new java.util.Random().nextInt(playerPower));
+        int playerHit = playerStrength + Math.abs(new java.util.Random().nextInt(playerPower));
 
-        mainTextArea.setText("You attacked ghoul with your " + equippedWeapon + "\n\n" +
-                "You've dealt " + playerHit + "damage to it.");
+        ghoulHP -=playerHit;
+
+        mainTextArea.setText("Ghoul HP: " + ghoulHP + "\n" +
+                "You attacked a Ghoul with your "
+                + equippedWeapon + "\n\n" +
+                "You've dealt " + playerHit + " damage to it.");
 
         choice_1.setText("Attack");
         choice_2.setText("Use health potion");
@@ -1534,6 +1560,8 @@ public class Main {
         buttonVisibility(2);
         actualLocation = "healthPotion";
         int healedHP = 8 + Math.abs(new java.util.Random().nextInt(playerSpirit));
+
+        playerHP +=healedHP;
 
         mainTextArea.setText("You are using one of your health potions.\n\n" +
                 "You've healed " + healedHP + "health points.\n" +
