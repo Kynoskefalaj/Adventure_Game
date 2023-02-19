@@ -1326,6 +1326,9 @@ public class Main {
                     "You feel that something inside is dragging you there...");
             choice_4.setVisible(true);
             choice_4.setText("Enter");
+            choice_1.setText("Check the grave");
+            choice_2.setText("Check the shrine");
+            choice_3.setText("Return the windmill");
         } else {
             mainTextArea.setText("The doors won't budge.");
 
