@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class Main {
 
@@ -23,15 +24,11 @@ public class Main {
     int screenSizeX = 1000;
     int screenSizeY = 650;
 
-    int playerHP, playerPower, playerArmor;
+    int playerHP, playerPower, playerArmor, playerSpirit, playerStrength;
     int goblinHP, goblinPower;
     String equippedWeapon, equippedArmor;
     String actualLocation;
-    boolean rope;
-    boolean key;
-    boolean leatherArmor;
-    boolean gem;
-    boolean goblinAlive;
+    boolean rope, key, leatherArmor, gem, goblinAlive, ghoulAlive, ghoulTrophy;
     boolean tombAvailable = false;
     int playerCoins;
     int healthPotions;
@@ -283,11 +280,11 @@ public class Main {
         String[] columnNames = {"", "", "", ""};
 
         Object[][] statistics = {
-                {"Health", "" + playerHP, "Armor", "" + playerArmor},
-                {"Power", "" + playerPower, "Strength", "4"},
+                {"Health", playerHP, "Armor", playerArmor},
+                {"Power", playerPower, "Strength", "4"},
                 {"Intelligence", "6", "Wisdom", "3"},
                 {"Agility", "6", "Stamina", "5"},
-                {"Spirit", "2", "Perception", "4"}
+                {"Spirit", playerSpirit, "Perception", "4"}
         };
 
         playerStatisticsTable = new JTable(statistics, columnNames);
@@ -375,12 +372,14 @@ public class Main {
     public void playerSetup() {
         playerHP = 15;
         playerCoins = 0;
+        playerSpirit = 4;
+        playerStrength = 4;
         equippedWeapon = "Knife";
         equippedArmor = "Worn Jacket";
 
         switch (equippedWeapon) {
             case "Knife" -> playerPower = 3;
-            case "Rusty Sword" -> playerPower = 8;
+            case "Rusty Sword" -> playerPower = 7;
         }
 
         playerArmor = 2;
@@ -393,12 +392,13 @@ public class Main {
         key = false;
         leatherArmor = false;
         gem = false;
+        ghoulTrophy = false;
 
 
     }
 
     public void monstersSetup() {
-        goblinHP = 45;
+        goblinHP = 20;
         goblinPower = 10;
         goblinAlive = true;
 
@@ -857,8 +857,18 @@ public class Main {
                             theWindmill();
                             break;
                         case "c4":
-                            tomb1();
+                            if(ghoulAlive) {
+                                tomb1();
+                            }
+                            else
+                                tombCompleted();
                             break;
+                    }
+                    break;
+
+                case "tombCompleted":
+                    if(Objects.equals(yourChoice, "c1")){
+                        theCemetery();
                     }
                     break;
 
@@ -924,14 +934,100 @@ public class Main {
                 case "ghoul":
                     switch (yourChoice) {
                         case "c1":
-                            ghoul();
+                            playerAttacksGhoul();
                             break;
                         case "c2":
+                            tomb();
                             break;
                         case "c3":
                             break;
                         case "c4":
                             break;
+                    }
+                    break;
+
+                case "playerAttacksGhoul":
+                    switch (yourChoice) {
+                        case "c1":
+                            ghoulAttack();
+                            if (isPlayerAlive()){
+                                break;
+                            }
+                            else
+                                death();
+                                break;
+                        case "c2":
+                            healthPotion();
+                            break;
+                        case "c3":
+                            tomb();
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
+
+                case "ghoulAttack":
+                    switch (yourChoice) {
+                        case "c1":
+                            playerAttacksGhoul();
+                            if (isGhoulAlive()){
+                                break;
+                            }
+                            else
+                                ghoulDown();
+                            break;
+                        case "c2":
+                            healthPotion();
+                            break;
+                        case "c3":
+                            tomb();
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
+
+                case "healthPotion":
+                    switch (yourChoice) {
+                        case "c1":
+                            ghoulAttack();
+                            if(isPlayerAlive()){
+                                break;
+                            }
+                            else
+                                death();
+                            break;
+                        case "c2":
+                            healthPotion();
+                            break;
+                        case "c3":
+                            tomb();
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
+
+                case "ghoulDown":
+                    switch (yourChoice) {
+                        case "c1":
+                            ghoulDecapitation();
+                            break;
+                        case "c2":
+                            healthPotion();
+                            break;
+                        case "c3":
+                            tomb();
+                            break;
+                        case "c4":
+                            break;
+                    }
+                    break;
+
+                case "ghoulDecapitation":
+                    if(Objects.equals(yourChoice, "c1")){
+                        tomb();
                     }
                     break;
             }
@@ -1076,7 +1172,7 @@ public class Main {
     public void goblinAttack() {
         buttonVisibility(4);
         actualLocation = "goblin";
-        int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(playerPower));
+        int goblinHit = Math.abs(playerArmor - new java.util.Random().nextInt(goblinPower));
         playerHP -= goblinHit;
 
         playerUpdate();
@@ -1406,36 +1502,83 @@ public class Main {
     }
 
     public void ghoulAttack() {
-        buttonVisibility(2);
-        actualLocation = "ghoul";
+        buttonVisibility(3);
+        actualLocation = "ghoulAttack";
+        int ghoulHit = Math.abs(playerArmor - new java.util.Random().nextInt(ghoulPower));
+        playerHP -= ghoulHit;
 
-        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
-                "You 've encountered a Ghoul!");
+        playerUpdate();
+
+        mainTextArea.setText("Ghoul attacks you !!!\n\n" +
+                "You've lost " + ghoulHit + "health points.");
 
         choice_1.setText("Attack");
-        choice_2.setText("Run");
+        choice_2.setText("Use health potion");
+        choice_3.setText("Run");
     }
 
-    public void ghoulFight() {
-        buttonVisibility(2);
-        actualLocation = "ghoul";
+    public void playerAttacksGhoul() {
+        buttonVisibility(3);
+        actualLocation = "playerAttacksGhoul";
+        int playerHit = Math.abs(new java.util.Random().nextInt(playerPower));
 
-        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
-                "You 've encountered a Ghoul!");
+        mainTextArea.setText("You attacked ghoul with your " + equippedWeapon + "\n\n" +
+                "You've dealt " + playerHit + "damage to it.");
 
         choice_1.setText("Attack");
-        choice_2.setText("Run");
+        choice_2.setText("Use health potion");
+        choice_3.setText("Run");
     }
 
     public void healthPotion() {
         buttonVisibility(2);
-        actualLocation = "ghoul";
+        actualLocation = "healthPotion";
+        int healedHP = 8 + Math.abs(new java.util.Random().nextInt(playerSpirit));
 
-        mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
-                "You 've encountered a Ghoul!");
+        mainTextArea.setText("You are using one of your health potions.\n\n" +
+                "You've healed " + healedHP + "health points.\n" +
+                "You have " + healthPotions + " health potions left.");
 
         choice_1.setText("Attack");
-        choice_2.setText("Run");
+        choice_2.setText("Use health potion");
+        choice_3.setText("Run");
+    }
+
+    public void ghoulDown() {
+        buttonVisibility(3);
+        actualLocation = "ghoulDown";
+
+        mainTextArea.setText("You did it!\n" +
+                "People from town will be grateful for that!\n\n" +
+                "You've looted 15 gold coins!");
+
+        playerCoins += 15;
+
+        choice_1.setText("Cut off it's head");
+        choice_2.setText("Use health potion");
+        choice_3.setText("Exit");
+    }
+
+    public void ghoulDecapitation() {
+        buttonVisibility(1);
+        actualLocation = "ghoulDecapitation";
+        ghoulTrophy = true;
+        ghoulAlive = false;
+
+        mainTextArea.setText("You cut off head of that monster.\n" +
+                "Ghoul Trophy added to your inventory.");
+
+        choice_1.setText("Exit");
+    }
+
+    public void tombCompleted() {
+        buttonVisibility(1);
+        actualLocation = "tombCompleted";
+
+        mainTextArea.setText("You've eliminated the threat down there\n" +
+                "There is nothing else to do.");
+
+        choice_1.setText("Exit");
     }
 
 
