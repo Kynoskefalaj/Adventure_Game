@@ -30,9 +30,9 @@ public class Main {
     String actualLocation;
     boolean rope, key, leatherArmor, gem, goblinAlive, ghoulAlive, ghoulTrophy;
     boolean tombAvailable = false;
-    int playerCoins;
+    int playerCoins, playerHit;
     int healthPotions;
-    int ghoulHP, ghoulPower;
+    int ghoulHP, ghoulPower, ghoulMaxHP, goblinMaxHP;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -184,7 +184,7 @@ public class Main {
         playerInterfacePanel.setLayout(new GridLayout(4, 1));
 
         //next we add hud panel in the left upper corner
-        int hudPanelWidth = playerInterfacePanelWidth;
+        int hudPanelWidth = 500;
         int hudPanelHeight = playerInterfacePanelHeight;
         int hudPanelStartX = playerHudAndInterfaceOffset;
         int hudPanelStartY = playerInterfacePanelStartY;
@@ -280,7 +280,7 @@ public class Main {
         String[] columnNames = {"", "", "", ""};
 
         Object[][] statistics = {
-                {"Health", playerStamina, "Armor", playerArmor},
+                {"Stamina", playerStamina, "Armor", playerArmor},
                 {"Power", playerPower, "Strength", playerStrength},
                 {"Intelligence", "6", "Wisdom", "3"},
                 {"Agility", "6", "Cunning", "5"},
@@ -370,9 +370,10 @@ public class Main {
     }
 
     public void playerSetup() {
-        playerHP = 15;
+        playerStamina = 100; //stamina is maximum possible player HP
+        playerHP = playerStamina;
         playerCoins = 0;
-        playerSpirit = 4;
+        playerSpirit = 7;
         playerStrength = 4;
         equippedWeapon = "Knife";
         equippedArmor = "Worn Jacket";
@@ -398,12 +399,15 @@ public class Main {
     }
 
     public void monstersSetup() {
-        goblinHP = 30;
+        goblinMaxHP = 300;
+        goblinHP = goblinMaxHP;
         goblinPower = 10;
         goblinAlive = true;
 
-        ghoulHP = 250;
-        ghoulPower = 10;
+        ghoulAlive = true;
+        ghoulMaxHP = 700;
+        ghoulHP = ghoulMaxHP;
+        ghoulPower = 20;
     }
 
     public class TitleScreenHandler implements ActionListener {
@@ -569,6 +573,7 @@ public class Main {
                             }
                             break;
                         case "c3":
+                            goblinHP = goblinMaxHP;
                             theCave();
                             break;
                         case "c4":
@@ -596,7 +601,7 @@ public class Main {
                             }
                             break;
                         case "c3":
-                            goblinHP = 30;
+                            goblinHP = goblinMaxHP;
                             theCave();
                             break;
                         case "c4":
@@ -624,7 +629,7 @@ public class Main {
                             }
                             break;
                         case "c3":
-                            goblinHP = 30;
+                            goblinHP = goblinMaxHP;
                             theCave();
                             break;
                         case "c4":
@@ -970,6 +975,7 @@ public class Main {
                             healthPotion();
                             break;
                         case "c3":
+                            ghoulHP = ghoulMaxHP;
                             tomb();
                             break;
                         case "c4":
@@ -991,6 +997,7 @@ public class Main {
                             healthPotion();
                             break;
                         case "c3":
+                            ghoulHP = ghoulMaxHP;
                             tomb();
                             break;
                         case "c4":
@@ -1012,6 +1019,7 @@ public class Main {
                             healthPotion();
                             break;
                         case "c3":
+                            ghoulHP = ghoulMaxHP;
                             tomb();
                             break;
                         case "c4":
@@ -1118,15 +1126,21 @@ public class Main {
     public void river() {
         buttonVisibility(4);
         actualLocation = "river";
-        int restoredHP = new java.util.Random().nextInt(4);
+        int restoredHP = new java.util.Random().nextInt(40);
         playerHP += restoredHP;
-        if (playerHP > playerStamina) { //set max HP to 15
+        if (playerHP > playerStamina) {
             playerHP = playerStamina;
         }
         playerUpdate();
 
-        mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
-                "Your health is restored by " + restoredHP + ".");
+        if (playerHP != playerStamina) {
+            mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
+                    "Your health is restored by " + restoredHP + ".");
+        }
+        else{
+            mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
+                    "Your health is fully restored.");
+        }
 
         choice_1.setText("Hop in to the water");
         choice_2.setText("Drink more");
@@ -1200,7 +1214,8 @@ public class Main {
     public void playerAttacksGoblin() {
         buttonVisibility(4);
         actualLocation = "playerAttacksGoblin";
-        int playerHit = playerStrength + new java.util.Random().nextInt(playerPower);
+        int playerHit = critMultiplier() *
+                (playerStrength + new java.util.Random().nextInt(playerPower));
         goblinHP -= playerHit;
 
         mainTextArea.setText("Goblin health: " + goblinHP +
@@ -1220,8 +1235,8 @@ public class Main {
         gem = true;
         goblinAlive = false;
 
-        mainTextArea.setText("You beat this filthy creature! " + "" +
-                "\n You obtained large shiny gem!");
+        mainTextArea.setText("You've beat this filthy creature! " +
+                "\n\nYou obtained large shiny gem!");
 
         choice_1.setText("Go to giant tree");
         choice_2.setText("Go to the river bank");
@@ -1329,6 +1344,7 @@ public class Main {
         buttonVisibility(2);
         actualLocation = "chestOpen";
         leatherArmor = true;
+        equippedArmor = "Leather Armor";
         playerUpdate();
 
         mainTextArea.setText("You've opened the chest with a key from windmill!\n" +
@@ -1371,11 +1387,11 @@ public class Main {
         actualLocation = "theCorpse";
         key = true;
 
+        healthPotions = 7;
+
         mainTextArea.setText("It is total abomination..." +
                 "\n ... but you've found a key.\n\n" +
-                "And also 2 health potions.");
-
-        healthPotions = 2;
+                "And also " + healthPotions + " health potions.");
 
         choice_1.setText("<");
     }
@@ -1428,8 +1444,8 @@ public class Main {
         actualLocation = "prayer";
 
         mainTextArea.setText("Your prayer has been heard.\n" +
-                "Your stamina increases to 30 and Health Points as well!!!");
-        playerStamina = 30;
+                "Your stamina increases to 200 and Health Points as well!!!");
+        playerStamina = 200;
         playerHP = playerStamina;
         playerUpdate();
 
@@ -1542,7 +1558,8 @@ public class Main {
     public void playerAttacksGhoul() {
         buttonVisibility(3);
         actualLocation = "playerAttacksGhoul";
-        int playerHit = playerStrength + Math.abs(new java.util.Random().nextInt(playerPower));
+        int playerHit = critMultiplier() *
+                (playerStrength + Math.abs(new java.util.Random().nextInt(playerPower)));
 
         ghoulHP -=playerHit;
 
@@ -1559,13 +1576,15 @@ public class Main {
     public void healthPotion() {
         buttonVisibility(2);
         actualLocation = "healthPotion";
-        int healedHP = 8 + Math.abs(new java.util.Random().nextInt(playerSpirit));
+        int healedHP = playerSpirit * 3 + Math.abs(new java.util.Random().nextInt(playerSpirit * 3));
 
         playerHP +=healedHP;
+        playerUpdate();
+        healthPotions -= 1;
 
         mainTextArea.setText("You are using one of your health potions.\n\n" +
                 "You've healed " + healedHP + "health points.\n" +
-                "You have " + healthPotions + " health potions left.");
+                "You have " + (healthPotions - 1) + " health potions left.");
 
         choice_1.setText("Attack");
         choice_2.setText("Use health potion");
@@ -1673,8 +1692,8 @@ public class Main {
     public void playerUpdate() {
         switch (equippedWeapon) {
             case "Knife" -> playerPower = 3;
-            case "Rusty Sword" -> playerPower = 5;
-            case "Short Bow" -> playerPower = 9;
+            case "Rusty Sword" -> playerPower = 8;
+            case "Short Bow" -> playerPower = 14;
         }
         if (leatherArmor) {
             playerArmor = 7;
@@ -1683,10 +1702,20 @@ public class Main {
         }
         hpAmountLabel.setText("" + playerHP);
         equippedWeaponLabel.setText(("" + equippedWeapon));
+        equippedArmorLabel.setText("" + equippedArmor);
     }
 
-    public void waitThreeSeconds() throws InterruptedException {
-        Thread.sleep(3000);
+    public int critMultiplier(){
+        //crit will be committed when critRolledValue take 10th number
+        // (it is 9 when we count from 0)
+        int critRolledValue = Math.abs(new java.util.Random().nextInt(10));
+        if (critRolledValue == 9){
+            mainTextArea.setText("Critical hit!\n" +
+                    "You've dealt " + playerHit + "damage.");
+            return 3;
+        }
+        else
+            return 1;
     }
 }
 
