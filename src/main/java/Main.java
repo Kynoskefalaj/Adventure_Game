@@ -136,7 +136,9 @@ public class Main {
         choiceButtonPanel.setBounds(choiceButtonPanePanelX, choiceButtonPanePanelY, choiceButtonPanelWidth,
                 choiceButtonPaneHeight);
         choiceButtonPanel.setBackground(Color.black);
-        choiceButtonPanel.setLayout(new GridLayout(4, 1)); // set grid layout on that panel to 4 rows and 1 column
+        choiceButtonPanel.setLayout(new GridLayout(4, 1)); // set grid layout on
+        // that panel to 4 rows and 1 column that method takes object
+        // from Class GridLayout as a parameter
 
         //now every single (4) choice button is added
         choice_1 = new JButton("Choice 1");
@@ -282,10 +284,10 @@ public class Main {
 
         Object[][] statistics = {
                 {"Health", "" + playerHP, "Armor", "" + playerArmor},
-                {"Power", "" + playerPower, "Strength", "11"},
-                {"Intelligence", "12", "Wisdom", "9"},
-                {"Agility", "14", "Stamina", "10"},
-                {"Spirit", "7", "Perception", "15"}
+                {"Power", "" + playerPower, "Strength", "4"},
+                {"Intelligence", "6", "Wisdom", "3"},
+                {"Agility", "6", "Stamina", "5"},
+                {"Spirit", "2", "Perception", "4"}
         };
 
         playerStatisticsTable = new JTable(statistics, columnNames);
