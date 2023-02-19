@@ -453,12 +453,12 @@ public class Main {
                             }
                             break;
                         case "c2":
-                            ghoul();
                             break;
                         case "c3":
+                            crossroads();
                             break;
                         case "c4":
-                            crossroads();
+                            enterToTown();
                             break;
                     }
                     break;
@@ -1082,16 +1082,31 @@ public class Main {
     }
 
     public void talkGuard() {
-        buttonVisibility(4);
+        buttonVisibility(3);
         actualLocation = "talkGuard";
 
         mainTextArea.setText("Hello stranger! I have never seen your face, " +
                 "\nso I cannot let you in to our town. \n\nWhere are you from?");
 
         choice_1.setText("Attack The Guard");
-        choice_2.setText("I'm from the Dark Woods");
-        choice_3.setText("I'm new blacksmith's apprentice");
-        choice_4.setText("Return to the crossroads");
+        choice_2.setText("I'm new blacksmith's apprentice");
+        choice_3.setText("Return to the crossroads");
+        if(ghoulTrophy){
+            choice_4.setVisible(true);
+            choice_4.setText("I have Ghoul's head.");
+        }
+
+    }
+
+    public void enterToTown() {
+        buttonVisibility(0);
+        actualLocation = "talkGuard";
+
+        mainTextArea.setText("Oh, You've beaten that scary monster!\n" +
+                "All Rodentia people are grateful!\n" +
+                "\n Welcome to our town!\n\n" +
+                "You've completed Adventure. Congratulations!");
+
     }
 
     public void attackGuard() {
@@ -1579,8 +1594,12 @@ public class Main {
         int healedHP = playerSpirit * 3 + Math.abs(new java.util.Random().nextInt(playerSpirit * 3));
 
         playerHP +=healedHP;
+        if(playerHP > playerStamina){
+            playerHP = playerStamina;
+        }
         playerUpdate();
         healthPotions -= 1;
+
 
         mainTextArea.setText("You are using one of your health potions.\n\n" +
                 "You've healed " + healedHP + "health points.\n" +
@@ -1662,6 +1681,12 @@ public class Main {
 
     public void buttonVisibility(int i) {
         switch (i) {
+            case 0:
+                choice_1.setVisible(false);
+                choice_2.setVisible(false);
+                choice_3.setVisible(false);
+                choice_4.setVisible(false);
+                break;
             case 1:
                 choice_1.setVisible(true);
                 choice_2.setVisible(false);
