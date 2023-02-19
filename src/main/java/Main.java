@@ -848,7 +848,7 @@ public class Main {
                 case "tomb":
                     switch (yourChoice) {
                         case "c1":
-                            tomb1();
+                            theGrave();
                             break;
                         case "c2":
                             theShrine();
@@ -1309,7 +1309,7 @@ public class Main {
                 "a priest represented by statue reach out his hand. His hand is the hand is arranged as " +
                 "if it is holding something. Something is missing here.");
         choice_1.setText("<");
-        if (gem = true) {
+        if (gem) {
             choice_2.setVisible(true);
             choice_2.setText("Put a jewel in that hand");
         } else
