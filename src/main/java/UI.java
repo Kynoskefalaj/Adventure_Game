@@ -47,9 +47,7 @@ public class UI {
         titlePanel.setBackground(Color.black);
 
         // creates label with title name
-        titleLabel = new JLabel("ADVENTURE");
-        titleLabel.setForeground(Color.white);
-        titleLabel.setFont(titleFont);
+        titleLabel = makeLabel(titleLabel, "ADVENTURE", titleFont, titlePanel);
 
         // creates panel for start button
         int startButtonPanelWidth = 200;
@@ -57,24 +55,14 @@ public class UI {
         int startButtonPanelStartX = (screenSizeX - startButtonPanelWidth) / 2;
         int startButtonPanelStartY = (screenSizeY - startButtonPanelHeight) / 2 + 70;
 
-
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(startButtonPanelStartX, startButtonPanelStartY,
                 startButtonPanelWidth, startButtonPanelHeight);
         startButtonPanel.setBackground(Color.black);
 
         // creates start button
-        startButton = new JButton("START");
-        startButton.setBackground(Color.BLACK);
-        startButton.setForeground(Color.white);
-        startButton.setFont(normalFont);
-        startButton.setFocusPainted(false);
-        startButton.addActionListener(g.handler); // when you click startButton
-        // it recognizes that click and calls g.handler
-        startButton.setActionCommand("start");
-
-        titlePanel.add(titleLabel); // adds title label on title panel
-        startButtonPanel.add(startButton); //adds start button on button panel
+        // when you click startButton it recognizes that click and calls g.handler
+        makeButton(startButton, "START", startButtonPanel, "start");
 
         con.add(titlePanel); //adds title panel to display
         con.add(startButtonPanel); //adds start button panel to display
@@ -116,41 +104,32 @@ public class UI {
         // from Class GridLayout as a parameter
 
         //now every single (4) choice button is added
-        choice_1 = new JButton("Choice 1");
-        choice_1.setBackground(Color.BLACK);
-        choice_1.setForeground(Color.white);
-        choice_1.setFont(normalFont);
-        choiceButtonPanel.add(choice_1);
-        choice_1.addActionListener(g.handler);
-        choice_1.setActionCommand("c1");
-
-        choice_2 = new JButton("Choice 2");
-        choice_2.setBackground(Color.BLACK);
-        choice_2.setForeground(Color.white);
-        choice_2.setFont(normalFont);
-        choiceButtonPanel.add(choice_2);
-        choice_2.addActionListener(g.handler);
-        choice_2.setActionCommand("c2");
-
-        choice_3 = new JButton("Choice 3");
-        choice_3.setBackground(Color.BLACK);
-        choice_3.setForeground(Color.white);
-        choice_3.setFont(normalFont);
-        choiceButtonPanel.add(choice_3);
-        choice_3.addActionListener(g.handler);
-        choice_3.setActionCommand("c3");
-
-        choice_4 = new JButton("Choice 4");
-        choice_4.setBackground(Color.BLACK);
-        choice_4.setForeground(Color.white);
-        choice_4.setFont(normalFont);
-        choiceButtonPanel.add(choice_4);
-        choice_4.addActionListener(g.handler);
-        choice_4.setActionCommand("c4");
+        makeButton(choice_1,"Choice 1", choiceButtonPanel,"c1");
+        makeButton(choice_2,"Choice 2", choiceButtonPanel,"c2");
+        makeButton(choice_3,"Choice 3", choiceButtonPanel,"c3");
+        makeButton(choice_4,"Choice 4", choiceButtonPanel,"c4");
 
         mainTextPanel.add(mainTextArea);
         con.add(mainTextPanel);
         con.add(choiceButtonPanel);
     }
 
+    public JButton makeButton(JButton button, String name, JPanel panel, String action){
+        button = new JButton(name);
+        button.setBackground(Color.BLACK);
+        button.setForeground(Color.white);
+        button.setFont(normalFont);
+        panel.add(button);
+        button.addActionListener(g.handler);
+        button.setActionCommand(action);
+        return button;
+    }
+
+    public JLabel makeLabel(JLabel label, String name,Font font, JPanel panel){
+        label = new JLabel(name);
+        label.setForeground(Color.white);
+        label.setFont(font);
+        panel.add(label);
+        return label;
+    }
 }
