@@ -6,9 +6,10 @@ public class UI {
     Game g;
     JFrame mainWindow;
     Container con;
-    JPanel titlePanel, startButtonPanel;
+    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel;
     JLabel titleLabel;
-    JButton startButton;
+    JButton startButton, choice_1, choice_2, choice_3, choice_4;
+    JTextArea mainTextArea;
 
     // creates new font for title with size - 90
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
@@ -77,6 +78,79 @@ public class UI {
 
         con.add(titlePanel); //adds title panel to display
         con.add(startButtonPanel); //adds start button panel to display
+    }
+
+    public void gameScreen(){
+        //add main text Panel and main text area on it
+        int mainTextPanelWidth = 800;
+        int mainTextPanelHeight = 300;
+        int startMainTextPanelX = (screenSizeX - mainTextPanelWidth) / 2;
+        int startMainTextPanelY = 100 + 30;
+
+        mainTextPanel = new JPanel();
+        mainTextPanel.setBounds(startMainTextPanelX, startMainTextPanelY, mainTextPanelWidth,
+                mainTextPanelHeight);
+        mainTextPanel.setBackground(Color.black);
+
+        mainTextArea = new JTextArea("This is main text area");
+        mainTextArea.setBounds(startMainTextPanelX, startMainTextPanelY, mainTextPanelWidth,
+                mainTextPanelHeight);
+        mainTextArea.setBackground(Color.black);
+        mainTextArea.setForeground(Color.white);
+        mainTextArea.setFont(normalFont);
+        mainTextArea.setLineWrap(true);
+        mainTextPanel.add(mainTextArea);
+
+        //next choice button panel is to set up
+        int choiceButtonPanelWidth = 600;
+        int choiceButtonPaneHeight = 150;
+        int choiceButtonPanePanelX = (screenSizeX - choiceButtonPanelWidth) / 2;
+        int choiceButtonPanePanelY = screenSizeY - choiceButtonPaneHeight - 50;
+
+        choiceButtonPanel = new JPanel();
+        choiceButtonPanel.setBounds(choiceButtonPanePanelX, choiceButtonPanePanelY,
+                choiceButtonPanelWidth, choiceButtonPaneHeight);
+        choiceButtonPanel.setBackground(Color.black);
+        choiceButtonPanel.setLayout(new GridLayout(4, 1)); // set grid layout on
+        // that panel to 4 rows and 1 column that method takes object
+        // from Class GridLayout as a parameter
+
+        //now every single (4) choice button is added
+        choice_1 = new JButton("Choice 1");
+        choice_1.setBackground(Color.BLACK);
+        choice_1.setForeground(Color.white);
+        choice_1.setFont(normalFont);
+        choiceButtonPanel.add(choice_1);
+        choice_1.addActionListener(g.handler);
+        choice_1.setActionCommand("c1");
+
+        choice_2 = new JButton("Choice 2");
+        choice_2.setBackground(Color.BLACK);
+        choice_2.setForeground(Color.white);
+        choice_2.setFont(normalFont);
+        choiceButtonPanel.add(choice_2);
+        choice_2.addActionListener(g.handler);
+        choice_2.setActionCommand("c2");
+
+        choice_3 = new JButton("Choice 3");
+        choice_3.setBackground(Color.BLACK);
+        choice_3.setForeground(Color.white);
+        choice_3.setFont(normalFont);
+        choiceButtonPanel.add(choice_3);
+        choice_3.addActionListener(g.handler);
+        choice_3.setActionCommand("c3");
+
+        choice_4 = new JButton("Choice 4");
+        choice_4.setBackground(Color.BLACK);
+        choice_4.setForeground(Color.white);
+        choice_4.setFont(normalFont);
+        choiceButtonPanel.add(choice_4);
+        choice_4.addActionListener(g.handler);
+        choice_4.setActionCommand("c4");
+
+        mainTextPanel.add(mainTextArea);
+        con.add(mainTextPanel);
+        con.add(choiceButtonPanel);
     }
 
 }

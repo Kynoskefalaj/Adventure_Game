@@ -12,7 +12,6 @@ public class Game {
     }
 
     public Game(){ //constructor
-        VisibilityManager vm = new VisibilityManager(ui);
     }
 
     public class UniversalHandler implements ActionListener {
@@ -23,7 +22,7 @@ public class Game {
             String yourChoice = event.getActionCommand();
 
             switch (yourChoice) {
-                case "start": vm.titleToGame();
+                case "start": vm.titleToGame(); ui.gameScreen(); break;
                 case "c1":;
                 case "c2":;
                 case "c3":;
