@@ -41,10 +41,9 @@ public class UI {
         int titlePanelStartX = (screenSizeX - titlePanelWidth) / 2;
         int titlePanelStartY = ((screenSizeY - titlePanelHeight) / 2 - 70);
 
-        titlePanel = new JPanel();
-        titlePanel.setBounds(titlePanelStartX, titlePanelStartY,
+
+        titlePanel = makePanel(titlePanel, titlePanelStartX, titlePanelStartY,
                 titlePanelWidth, titlePanelHeight);
-        titlePanel.setBackground(Color.black);
 
         // creates label with title name
         titleLabel = makeLabel(titleLabel, "ADVENTURE", titleFont, titlePanel);
@@ -55,10 +54,8 @@ public class UI {
         int startButtonPanelStartX = (screenSizeX - startButtonPanelWidth) / 2;
         int startButtonPanelStartY = (screenSizeY - startButtonPanelHeight) / 2 + 70;
 
-        startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(startButtonPanelStartX, startButtonPanelStartY,
-                startButtonPanelWidth, startButtonPanelHeight);
-        startButtonPanel.setBackground(Color.black);
+        startButtonPanel = makePanel(startButtonPanel, startButtonPanelStartX,
+                startButtonPanelStartY, startButtonPanelWidth, startButtonPanelHeight);
 
         // creates start button
         // when you click startButton it recognizes that click and calls g.handler
@@ -75,10 +72,8 @@ public class UI {
         int startMainTextPanelX = (screenSizeX - mainTextPanelWidth) / 2;
         int startMainTextPanelY = 100 + 30;
 
-        mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(startMainTextPanelX, startMainTextPanelY, mainTextPanelWidth,
-                mainTextPanelHeight);
-        mainTextPanel.setBackground(Color.black);
+        mainTextPanel = makePanel(mainTextPanel, startMainTextPanelX, startMainTextPanelY,
+                mainTextPanelWidth, mainTextPanelHeight);
 
         mainTextArea = new JTextArea("This is main text area");
         mainTextArea.setBounds(startMainTextPanelX, startMainTextPanelY, mainTextPanelWidth,
@@ -95,10 +90,8 @@ public class UI {
         int choiceButtonPanePanelX = (screenSizeX - choiceButtonPanelWidth) / 2;
         int choiceButtonPanePanelY = screenSizeY - choiceButtonPaneHeight - 50;
 
-        choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds(choiceButtonPanePanelX, choiceButtonPanePanelY,
-                choiceButtonPanelWidth, choiceButtonPaneHeight);
-        choiceButtonPanel.setBackground(Color.black);
+        choiceButtonPanel = makePanel(choiceButtonPanel, choiceButtonPanePanelX,
+                choiceButtonPanePanelY, choiceButtonPanelWidth, choiceButtonPaneHeight);
         choiceButtonPanel.setLayout(new GridLayout(4, 1)); // set grid layout on
         // that panel to 4 rows and 1 column that method takes object
         // from Class GridLayout as a parameter
@@ -114,6 +107,21 @@ public class UI {
         con.add(choiceButtonPanel);
     }
 
+    public JPanel makePanel(JPanel panel, int x, int y, int width, int height){
+        panel = new JPanel();
+        panel.setBounds(x, y, width, height);
+        panel.setBackground(Color.black);
+        return panel;
+    }
+
+    public JLabel makeLabel(JLabel label, String name,Font font, JPanel panel){
+        label = new JLabel(name);
+        label.setForeground(Color.white);
+        label.setFont(font);
+        panel.add(label);
+        return label;
+    }
+
     public JButton makeButton(JButton button, String name, JPanel panel, String action){
         button = new JButton(name);
         button.setBackground(Color.BLACK);
@@ -125,11 +133,4 @@ public class UI {
         return button;
     }
 
-    public JLabel makeLabel(JLabel label, String name,Font font, JPanel panel){
-        label = new JLabel(name);
-        label.setForeground(Color.white);
-        label.setFont(font);
-        panel.add(label);
-        return label;
-    }
 }
