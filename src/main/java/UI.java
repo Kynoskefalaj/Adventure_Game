@@ -3,13 +3,19 @@ import java.awt.*;
 
 public class UI {
 
-    Game g;
+    Game game;
+    Player player;
     JFrame mainWindow;
     Container con;
-    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel;
-    JLabel titleLabel;
-    JButton startButton, choice_1, choice_2, choice_3, choice_4;
+    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel,
+            interfacePanel, hudPanel, statisticsHeaderPanel, statsPanel,
+            statsReturnBtnPanel;
+    JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel,
+            armorLabel, equippedArmorLabel, statsLabel;
+    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton,
+            inventoryButton, journalButton, settingsButton, statisticsReturnButton;
     JTextArea mainTextArea;
+    JTable statisticsTable;
 
     // creates new font for title with size - 90
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
@@ -20,13 +26,14 @@ public class UI {
     private final int screenSizeY = 650;
 
 
-    public UI(Game game){ //constructor
-        g = game;
+    public UI(Game g, Player p){ //constructor
+        game = g;
+        player = p;
         mainWindow();
         titleScreen();
     }
 
-    public void mainWindow(){
+    protected void mainWindow(){
         mainWindow = new JFrame(); //creating new instance of JFrame
         mainWindow.setSize(screenSizeX, screenSizeY);
         mainWindow.getContentPane().setBackground(Color.BLACK);
@@ -35,7 +42,7 @@ public class UI {
         con = mainWindow.getContentPane();
     }
 
-    public void titleScreen(){
+    protected void titleScreen(){
         int titlePanelWidth = 600;
         int titlePanelHeight = 150;
         int titlePanelStartX = (screenSizeX - titlePanelWidth) / 2;
@@ -65,7 +72,7 @@ public class UI {
         con.add(startButtonPanel); //adds start button panel to display
     }
 
-    public void gameScreen(){
+    protected void gameScreen(){
         //add main text Panel and main text area on it
         int mainTextPanelWidth = 800;
         int mainTextPanelHeight = 300;
@@ -102,19 +109,143 @@ public class UI {
         makeButton(choice_3,"Choice 3", choiceButtonPanel,"c3");
         makeButton(choice_4,"Choice 4", choiceButtonPanel,"c4");
 
+        headsUpDisplay();
+
         mainTextPanel.add(mainTextArea);
         con.add(mainTextPanel);
         con.add(choiceButtonPanel);
     }
 
-    public JPanel makePanel(JPanel panel, int x, int y, int width, int height){
+    protected void headsUpDisplay(){
+
+        //next we add player interface panel in the right upper corner
+        int interfacePanelWidth = 300;
+        int interfacePanelHeight = 100;
+        int hudAndInterfaceOffset = 100;
+        int interfacePanelStartX = screenSizeX - interfacePanelWidth - hudAndInterfaceOffset;
+        int interfacePanelStartY = 15;
+
+        interfacePanel = makePanel(interfacePanel, interfacePanelStartX, interfacePanelStartY,
+                interfacePanelWidth,interfacePanelHeight);
+        interfacePanel.setLayout(new GridLayout(4, 1));
+
+
+        //next we add hud panel in the left upper corner
+        int hudPanelWidth = 500;
+        int hudPanelHeight = interfacePanelHeight;
+        int hudPanelStartX = hudAndInterfaceOffset;
+        int hudPanelStartY = interfacePanelStartY;
+
+        hudPanel = makePanel(hudPanel, hudPanelStartX, hudPanelStartY,
+                hudPanelWidth, hudPanelHeight);
+        hudPanel.setLayout(new GridLayout(3, 2));
+
+        //next objects added to interface panel and hud panel
+        hpLabel = makeLabel(hpLabel, "HP: ", normalFont, hudPanel);
+        hpAmountLabel = makeLabel(hpAmountLabel, "", normalFont, hudPanel);
+        weaponLabel = makeLabel(weaponLabel, "Weapon: ", normalFont, hudPanel);
+        equippedWeaponLabel = makeLabel(equippedWeaponLabel, "", normalFont, hudPanel);
+        armorLabel = makeLabel(armorLabel, "Armor: ", normalFont, hudPanel);
+        equippedArmorLabel = makeLabel(equippedArmorLabel, "", normalFont, hudPanel);
+
+        statisticsButton = makeButton(statisticsButton, "Statistics", interfacePanel, "stats");
+        inventoryButton = makeButton(inventoryButton, "Inventory", interfacePanel, "inventory");
+        journalButton = makeButton(journalButton, "Journal", interfacePanel, "journal");
+        settingsButton = makeButton(settingsButton, "settings", interfacePanel, "settings");
+
+        con.add(hudPanel);
+        con.add(interfacePanel);
+    }
+
+    public void createStatsScreen() {
+        //unsetting every object on the screen
+        mainTextPanel.setVisible(false);
+        choiceButtonPanel.setVisible(false);
+        interfacePanel.setVisible(false);
+        hudPanel.setVisible(false);
+
+        //setting up table with statistics
+        String[] columnNames = {"", "", "", ""};
+
+        Object[][] statistics = {
+                {"Stamina", player.stamina, "Armor", player.armor},
+                {"Power", player.power, "Strength", player.strength},
+                {"Intelligence", "6", "Wisdom", "3"},
+                {"Agility", "6", "Cunning", "5"},
+                {"Spirit", player.spirit, "Perception", "4"}
+        };
+
+        statisticsTable = new JTable(statistics, columnNames);
+        statisticsTable.setBackground(Color.black);
+        statisticsTable.setForeground(Color.white);
+        statisticsTable.setFont(normalFont);
+        statisticsTable.setRowHeight(70);
+        statisticsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        statisticsTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+        statisticsTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        statisticsTable.setShowGrid(false);
+        statisticsTable.setEnabled(false);
+
+        //add header "statistics"
+        int headerWidth = 400;
+        int headerHeight = 80;
+        int headerStartX = (screenSizeX - headerWidth) / 2;
+        int headerStartY = 20;
+
+        statisticsHeaderPanel = makePanel(statisticsHeaderPanel, headerStartX,
+                headerStartY, headerWidth, headerHeight);
+        statsLabel = makeLabel(statsLabel, "Statistics", normalFont, statisticsHeaderPanel);
+
+        //add statistics panel
+        int playerStatsPanelWidth = 600;
+        int playerStatsPanelHeight = 350;
+        int playerStatsPanelStartX = (screenSizeX - playerStatsPanelWidth) / 2 + 20;
+        int playerStatsPanelStartY = (screenSizeY - playerStatsPanelHeight) / 2 - 30;
+
+        statsPanel = makePanel(statsPanel, playerStatsPanelStartX, playerStatsPanelStartY,
+                playerStatsPanelWidth, playerStatsPanelHeight);
+        statsPanel.add(statisticsTable);
+
+        //add return button panel
+        int returnButtonPanelWidth = 200;
+        int returnButtonPanelHeight = 50;
+        int returnButtonPanelStartX = (screenSizeX - returnButtonPanelWidth) / 2;
+        int returnButtonPaneStartY = screenSizeY - returnButtonPanelHeight - 85;
+
+        statsReturnBtnPanel = makePanel(statsReturnBtnPanel, returnButtonPanelStartX,
+                returnButtonPaneStartY, returnButtonPanelWidth, returnButtonPanelHeight);
+
+        statisticsReturnButton = makeButton(statisticsReturnButton, "Return",
+                statsReturnBtnPanel, "statsReturn");
+
+        //assign objects to main container (screen)
+        con.add(statisticsHeaderPanel);
+        con.add(statsPanel);
+        con.add(statsReturnBtnPanel);
+    }
+
+    public void returnToGame(){
+        statsReturnBtnPanel.setVisible(false);
+        statsPanel.setVisible(false);
+        statisticsHeaderPanel.setVisible(false);
+
+        mainTextPanel.setVisible(true);
+        choiceButtonPanel.setVisible(true);
+        interfacePanel.setVisible(true);
+        hudPanel.setVisible(true);
+    }
+
+
+
+    //making static methods just to keep code DRY (Don't Repeat Yourself)
+    static JPanel makePanel(JPanel panel, int x, int y, int width, int height){
         panel = new JPanel();
         panel.setBounds(x, y, width, height);
         panel.setBackground(Color.black);
         return panel;
     }
 
-    public JLabel makeLabel(JLabel label, String name,Font font, JPanel panel){
+    static JLabel makeLabel(JLabel label, String name,Font font, JPanel panel){
         label = new JLabel(name);
         label.setForeground(Color.white);
         label.setFont(font);
@@ -122,13 +253,13 @@ public class UI {
         return label;
     }
 
-    public JButton makeButton(JButton button, String name, JPanel panel, String action){
+    protected JButton makeButton(JButton button, String name, JPanel panel, String action){
         button = new JButton(name);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.white);
         button.setFont(normalFont);
         panel.add(button);
-        button.addActionListener(g.handler);
+        button.addActionListener(game.handler);
         button.setActionCommand(action);
         return button;
     }

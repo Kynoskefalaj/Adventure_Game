@@ -4,8 +4,10 @@ import java.awt.event.ActionListener;
 public class Game {
 
     UniversalHandler handler = new UniversalHandler();
-    UI ui = new UI(this);
+    Player player = new Player();
+    UI ui = new UI(this, player);
     VisibilityManager vm = new VisibilityManager(ui);
+
 
     public static void main(String[] args) {
         new Game();
@@ -23,10 +25,12 @@ public class Game {
 
             switch (yourChoice) {
                 case "start": vm.titleToGame(); ui.gameScreen(); break;
-                case "c1":;
-                case "c2":;
-                case "c3":;
-                case "c4":;
+                case "c1": break;
+                case "c2": break;
+                case "c3": break;
+                case "c4": break;
+                case "stats": ui.createStatsScreen(); break;
+                case "statsReturn": ui.returnToGame(); break;
             }
         }
     }
