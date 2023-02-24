@@ -66,7 +66,8 @@ public class UI {
 
         // creates start button
         // when you click startButton it recognizes that click and calls g.handler
-        makeButton(startButton, "START", startButtonPanel, "start");
+        startButton = makeButton(startButton, "START", startButtonPanel, "start");
+        startButton.setFocusPainted(false);
 
         con.add(titlePanel); //adds title panel to display
         con.add(startButtonPanel); //adds start button panel to display
@@ -168,7 +169,7 @@ public class UI {
         String[] columnNames = {"", "", "", ""};
 
         Object[][] statistics = {
-                {"Stamina", player.stamina, "Armor", player.armor},
+                {"Stamina", player.stamina, "Armor", player.protection},
                 {"Power", player.power, "Strength", player.strength},
                 {"Intelligence", "6", "Wisdom", "3"},
                 {"Agility", "6", "Cunning", "5"},
