@@ -4,6 +4,7 @@ import weapons.SuperWeapon;
 import weapons.Weapon_Knife;
 
 public class Player {
+    public boolean rope, key, leatherArmor, gem, ghoulTrophy;
     public int hp, power, protection, spirit, strength, stamina, coins;
     public SuperWeapon weapon;
     public SuperArmor armor;
@@ -20,6 +21,13 @@ public class Player {
 
         armor = new Armor_WornJacket();
         armor.equipped(true);
+
+        rope = false;
+        key = false;
+        leatherArmor = false;
+        gem = false;
+        ghoulTrophy = false;
     }
+
 
 }

@@ -1,9 +1,9 @@
 package weapons;
 
 public class SuperWeapon {
-    String name;
-    int attack;
-    boolean isEquipped = false;
+    public String name;
+    public int attack;
+    public boolean isEquipped = false;
 
     public void equipped(boolean isIt){
         isEquipped = isIt;

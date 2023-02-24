@@ -236,8 +236,6 @@ public class UI {
         hudPanel.setVisible(true);
     }
 
-
-
     //making static methods just to keep code DRY (Don't Repeat Yourself)
     static JPanel makePanel(JPanel panel, int x, int y, int width, int height){
         panel = new JPanel();
@@ -263,6 +261,12 @@ public class UI {
         button.addActionListener(game.handler);
         button.setActionCommand(action);
         return button;
+    }
+
+    public void hudUpdate(){
+        equippedWeaponLabel.setText(player.weapon.name);
+        equippedArmorLabel.setText(player.armor.name);
+        hpAmountLabel.setText("" + player.hp);
     }
 
 }
