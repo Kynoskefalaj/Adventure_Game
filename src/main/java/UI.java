@@ -154,6 +154,8 @@ public class UI {
         journalButton = makeButton(journalButton, "Journal", interfacePanel, "journal");
         settingsButton = makeButton(settingsButton, "settings", interfacePanel, "settings");
 
+        hudUpdate();
+
         con.add(hudPanel);
         con.add(interfacePanel);
     }
