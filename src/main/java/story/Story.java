@@ -8,14 +8,18 @@ import root.VisibilityManager;
 public class Story{
     Game g;
     UI ui;
+    root.Utils ut;
     Player player;
     VisibilityManager vm;
 
-    public Story(Game game, UI ui, Player player, VisibilityManager vm){
+    public String nextPosition1, nextPosition2, nextPosition3, nextPosition4;
+
+    public Story(Game game, UI ui, Player player, VisibilityManager vm, root.Utils ut){
         this.g = game;
         this.ui = ui;
         this.player = player;
         this.vm = vm;
+        this.ut = ut;
     }
 
     public void choosePosition(String nextPosition){
@@ -32,11 +36,15 @@ public class Story{
         ui.mainTextArea.setText("After many days of long, exhausting journey \nyou finally went out of " +
                 "the woods and noticed \nsmall town down the hill. \n\nEntry is guarded by armed man.");
 
-        ui.choice_1.setText("Go to the entrance gate");
-        ui.choice_2.setText("Go back to the woods");
-        ui.choice_3.setText("Wait in the shadow, till the sun will go down");
-        ui.choice_4.setText("Check if there is any other entrance");
+        nextPosition1 = "talkGuard";
+
+        ut.setChoices("Go to the entrance gate", "Go back to the woods",
+                "Wait in the shadow, till the sun will go down", "Check if there is any other entrance");
+
+        ut.setPositions("talkGuard", "", "", "");
+
     }
+
 
     public void talkGuard() {
         vm.buttonVisibility(3);

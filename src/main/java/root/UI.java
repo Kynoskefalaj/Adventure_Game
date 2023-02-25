@@ -107,10 +107,10 @@ public class UI {
         // from Class GridLayout as a parameter
 
         //now every single (4) choice button is added
-        makeButton(choice_1,"Choice 1", choiceButtonPanel,"c1");
-        makeButton(choice_2,"Choice 2", choiceButtonPanel,"c2");
-        makeButton(choice_3,"Choice 3", choiceButtonPanel,"c3");
-        makeButton(choice_4,"Choice 4", choiceButtonPanel,"c4");
+        choice_1 = makeButton(choice_1,"Choice 1", choiceButtonPanel,"c1");
+        choice_2 = makeButton(choice_2,"Choice 2", choiceButtonPanel,"c2");
+        choice_3 = makeButton(choice_3,"Choice 3", choiceButtonPanel,"c3");
+        choice_4 = makeButton(choice_4,"Choice 4", choiceButtonPanel,"c4");
 
         headsUpDisplay();
 

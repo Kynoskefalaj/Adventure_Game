@@ -11,9 +11,10 @@ public class Game {
     Player player = new Player();
     UI ui = new UI(this, player);
     VisibilityManager vm = new VisibilityManager(ui);
-    Story story = new Story(this, ui, player, vm);
-    String nextPosition1, nextPosition2, nextPosition3, nextPosition4;
+    Utils ut = new Utils(ui, this);
+    Story story = new Story(this, ui, player, vm, ut);
 
+    public String [] nextPosition = new String[4];
 
     public static void main(String[] args) {
         new Game();
@@ -32,10 +33,10 @@ public class Game {
                 case "start": vm.titleToGame();
                     ui.gameScreen();
                     story.crossroads(); break;
-                case "c1": story.choosePosition(nextPosition1); break;
-                case "c2": story.choosePosition(nextPosition2); break;
-                case "c3": story.choosePosition(nextPosition3); break;
-                case "c4": story.choosePosition(nextPosition4); break;
+                case "c1": story.choosePosition(nextPosition[0]); break;
+                case "c2": story.choosePosition(nextPosition[1]); break;
+                case "c3": story.choosePosition(nextPosition[2]); break;
+                case "c4": story.choosePosition(nextPosition[3]); break;
                 case "stats": ui.createStatsScreen(); break;
                 case "statsReturn": ui.returnToGame(); break;
             }
