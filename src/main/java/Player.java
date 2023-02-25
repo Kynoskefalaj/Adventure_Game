@@ -10,8 +10,8 @@ public class Player {
     public SuperArmor armor;
 
     public Player(){
-        stamina = 100;
-        hp = stamina;
+        stamina = 10;
+        hp = stamina * 10;
         coins = 0;
         spirit = 7;
         strength = 4;
@@ -34,6 +34,7 @@ public class Player {
 
     public void playerUpdate(){
         protection = armor.armor;
+        power = weapon.attack;
     }
 
 
