@@ -16,17 +16,24 @@ public class Player {
         spirit = 7;
         strength = 4;
 
+
         weapon = new Weapon_Knife();
         weapon.equipped(true);
 
         armor = new Armor_WornJacket();
         armor.equipped(true);
 
+        playerUpdate();
+
         rope = false;
         key = false;
         leatherArmor = false;
         gem = false;
         ghoulTrophy = false;
+    }
+
+    public void playerUpdate(){
+        protection = armor.armor;
     }
 
 
