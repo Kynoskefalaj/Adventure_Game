@@ -1,3 +1,5 @@
+package root;
+
 public class VisibilityManager {
     UI ui;
 

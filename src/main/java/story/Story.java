@@ -1,3 +1,10 @@
+package story;
+
+import root.Game;
+import root.Player;
+import root.UI;
+import root.VisibilityManager;
+
 public class Story{
     Game g;
     UI ui;

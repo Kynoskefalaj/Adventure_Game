@@ -1,26 +1,28 @@
+package root;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class UI {
 
-    Game game;
-    Player player;
-    JFrame mainWindow;
-    Container con;
-    JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel,
+    public Game game;
+    public Player player;
+    public JFrame mainWindow;
+    public Container con;
+    public JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel,
             interfacePanel, hudPanel, statisticsHeaderPanel, statsPanel,
             statsReturnBtnPanel;
-    JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel,
+    public JLabel titleLabel, hpLabel, hpAmountLabel, weaponLabel, equippedWeaponLabel,
             armorLabel, equippedArmorLabel, statsLabel;
-    JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton,
+    public JButton startButton, choice_1, choice_2, choice_3, choice_4, statisticsButton,
             inventoryButton, journalButton, settingsButton, statisticsReturnButton;
-    JTextArea mainTextArea;
-    JTable statisticsTable;
+    public JTextArea mainTextArea;
+    public JTable statisticsTable;
 
     // creates new font for title with size - 90
-    Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
-    Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    Font headerFont = new Font("Times New Roman", Font.PLAIN, 60);
+    public Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
+    public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
+    public Font headerFont = new Font("Times New Roman", Font.PLAIN, 60);
 
     private final int screenSizeX = 1000;
     private final int screenSizeY = 650;
