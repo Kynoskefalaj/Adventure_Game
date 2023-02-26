@@ -19,13 +19,14 @@ public class Player {
         strength = 4;
 
 
-        weapon = new Weapon_Knife();
-        weapon.equipped(true);
+
+        weapon = new Weapon_Knife(true);
+//        weapon.equipped(true);
 
         armor = new Armor_WornJacket();
         armor.equipped(true);
 
-        playerUpdate();
+        update();
 
         rope = false;
         key = false;
@@ -34,7 +35,7 @@ public class Player {
         ghoulTrophy = false;
     }
 
-    public void playerUpdate(){
+    public void update(){
         protection = armor.armor;
         power = weapon.attack;
 

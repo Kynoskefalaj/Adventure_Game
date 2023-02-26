@@ -2,11 +2,6 @@ package root;
 
 import monsters.SuperMonster;
 
-import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-
 public class Combat {
 
     UI ui;
@@ -41,9 +36,6 @@ public class Combat {
         //actualizes player HP
         player.hp = playerHP;
 
-        if(playerHP < 0){
-            death();
-        }
         ui.hudUpdate();
         return monsterHit;
     }
@@ -74,6 +66,11 @@ public class Combat {
 
     public void aliveCheck(){
         if (playerHP < 0)
+            death();
+    }
+
+    public void monsterAliveCheck(){
+        if (monster.hp < 0)
             death();
     }
 
