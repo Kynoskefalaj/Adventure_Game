@@ -2,11 +2,17 @@ package root;
 
 import monsters.SuperMonster;
 
+import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 public class Combat {
 
     UI ui;
     SuperMonster monster;
     Player player;
+    int playerHP;
     int playerHit, monsterHit;
 
     // Constructor
@@ -14,11 +20,12 @@ public class Combat {
         this.ui = ui;
         this.player = player;
         this.monster = monster;
+        playerHP = this.player.hp;
     }
 
     public String monsterSound(){
-        int soundIndex = new java.util.Random().nextInt(monster.sound.length);
-        return monster.sound[soundIndex];
+        int soundIndex = new java.util.Random().nextInt(monster.sounds.length);
+        return monster.sounds[soundIndex];
     }
 
     public int playerHit(){
@@ -30,10 +37,14 @@ public class Combat {
 
     public int monsterHit(){
         monsterHit = Math.abs(player.protection - new java.util.Random().nextInt(monster.power + 1));
-        player.hp -= monsterHit;
+        playerHP -= monsterHit;
+        //actualizes player HP
+        player.hp = playerHP;
 
-        player.playerUpdate();
-
+        if(playerHP < 0){
+            death();
+        }
+        ui.hudUpdate();
         return monsterHit;
     }
 
@@ -48,6 +59,22 @@ public class Combat {
         }
         else
             return 1;
+    }
+
+    public void death() {
+
+        ui.mainTextArea.setText("You are dead.\n\nGAME OVER!");
+//        ui.mainTextArea.setHorizontalAlignment(JTextArea.CENTER)
+
+        ui.choice_1.setVisible(false);
+        ui.choice_2.setVisible(false);
+        ui.choice_3.setVisible(false);
+        ui.choice_4.setVisible(false);
+    }
+
+    public void aliveCheck(){
+        if (playerHP < 0)
+            death();
     }
 
 }

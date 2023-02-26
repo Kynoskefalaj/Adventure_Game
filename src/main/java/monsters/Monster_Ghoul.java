@@ -1,7 +1,7 @@
 package monsters;
 public class Monster_Ghoul extends SuperMonster{
 
-    String[] sound = {"Coooorpse!",
+    String[] sounds = {"Coooorpse!",
             "Aaaaaaaaarrrrgggggggghhhhhhhh!",
             "Rak arak ragh!"};
 

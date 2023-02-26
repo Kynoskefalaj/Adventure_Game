@@ -5,6 +5,6 @@ public class SuperMonster {
     public int maxHP;
     public int hp;
     public int power;
-    public String[] sound = new String[3];
+    public String[] sounds;
     public boolean isAlive;
 }

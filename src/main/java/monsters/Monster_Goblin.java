@@ -1,7 +1,7 @@
 package monsters;
 public class Monster_Goblin extends SuperMonster{
 
-    String[] sound = {"Grgrgrgl!",
+    String[] sounds = {"Grgrgrgl!",
             "Me atacks!",
             "Mahuhaha!"};
 

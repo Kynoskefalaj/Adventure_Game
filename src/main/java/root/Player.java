@@ -37,6 +37,7 @@ public class Player {
     public void playerUpdate(){
         protection = armor.armor;
         power = weapon.attack;
+
     }
 
 

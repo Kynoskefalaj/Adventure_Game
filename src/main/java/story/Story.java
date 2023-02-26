@@ -1,9 +1,9 @@
 package story;
 
-import root.Game;
-import root.Player;
-import root.UI;
-import root.VisibilityManager;
+import monsters.Monster_Ghoul;
+import monsters.Monster_Goblin;
+import monsters.Monster_TownGuard;
+import root.*;
 
 public class Story{
     Game g;
@@ -11,6 +11,11 @@ public class Story{
     root.Utils ut;
     Player player;
     VisibilityManager vm;
+
+    //Monsters resp
+    Monster_TownGuard townGuard = new Monster_TownGuard();
+    Monster_Goblin goblin = new Monster_Goblin();
+    Monster_Ghoul ghoul = new Monster_Ghoul();
 
     public String nextPosition1, nextPosition2, nextPosition3, nextPosition4;
 
@@ -27,6 +32,7 @@ public class Story{
         switch(nextPosition){
             case "crossroads": crossroads(); break;
             case "talkGuard": talkGuard(); break;
+            case "attackGuard": attackGuard(); break;
         }
     }
 
@@ -50,7 +56,7 @@ public class Story{
         ut.setText("Hello stranger! I have never seen your face, " +
         "\nso I cannot let you in to our town. \n\nWhere are you from?");
 
-        ut.setChoices("Attack The Guard", "",
+        ut.setChoices("Attack The Guard", "attackGuard",
                 "I'm new blacksmith's apprentice", "",
                 "Return to the crossroads", "crossroads",
                 "","");
@@ -73,8 +79,13 @@ public class Story{
 
     public void attackGuard() {
         vm.buttonVisibility(4);
-        int guardHit = new java.util.Random().nextInt(4);
 
+        Combat combat = new Combat(ui, player, townGuard);
+        combat.monsterHit();
+
+        ut.setText("The guard dodges your attack and hit " +
+                "you back in the head causing " + combat.monsterHit() + " damage.");
+        combat.aliveCheck();
 //        mainTextArea.setText("The guard dodges your attack and hit " +
 //                "you back in the head causing " + guardHit + " damage.");
 //        playerHP -= guardHit;
