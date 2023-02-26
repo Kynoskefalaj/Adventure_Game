@@ -69,9 +69,11 @@ public class Combat {
             death();
     }
 
-    public void monsterAliveCheck(){
+    public boolean monsterAliveCheck(){
         if (monster.hp < 0)
-            death();
+            return false;
+        else
+            return true;
     }
 
 }

@@ -5,6 +5,9 @@ import monsters.Monster_Goblin;
 import monsters.Monster_TownGuard;
 import root.*;
 import weapons.Weapon_RustySword;
+import weapons.Weapon_ShortBow;
+
+import java.util.Objects;
 
 public class Story{
     Game g;
@@ -18,8 +21,6 @@ public class Story{
     Monster_TownGuard townGuard = new Monster_TownGuard();
     Monster_Goblin goblin = new Monster_Goblin();
     Monster_Ghoul ghoul = new Monster_Ghoul();
-
-    public String nextPosition1, nextPosition2, nextPosition3, nextPosition4;
 
     public Story(Game game, UI ui, Player player, VisibilityManager vm, root.Utils ut){
         this.g = game;
@@ -39,13 +40,21 @@ public class Story{
             case "river": river(); break;
             case "swimming": swimming(); break;
             case "theCave": theCave(); break;
-            case "giantTree": break;
+            case "giantTree": giantTree(); break;
             case "goblin": goblin(); break;
-            case "goblinAttack": goblinAttack(); break;
-            case "playerAttacksGoblin": playerAttacksGoblin();break;
-            case "giantRock": break;
-            case "goblinDown": break;
-
+            case "goblinAttack": goblinAttack(); combat.aliveCheck(); break;
+            case "playerAttacksGoblin": playerAttacksGoblin();
+                if (combat.monsterAliveCheck())
+                    break;
+                else
+                    goblinDown(); break;
+            case "goblinDown": goblinDown(); break;
+            case "giantRock": giantRock(); break;
+            case "treeHouse": treeHouse(); break;
+            case "theLetter": theLetter(); break;
+            case "bed": bed(); break;
+            case "theChest": break;
+            case "theWindmill": break;
         }
     }
 
@@ -211,7 +220,7 @@ public class Story{
                 "Goblin lost " + hit + " health points!");
 
         ut.setChoices("Try to comfort him", "goblinAttack",
-                "Attack", "playerAttacksGoblin",
+                "Attack", "goblinAttack",
                 "Run", "theCave",
                 "Climb on giant rock", "giantRock");
     }
@@ -232,4 +241,80 @@ public class Story{
                 "Run", "theCave",
                 "Climb on giant rock", "giantRock");
     }
+
+    public void giantRock() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText("You are lucky, that stupid goblin is unable \nto " +
+                "reach you there.\n\n" +
+                "You've also found a rope.");
+        player.rope = true;
+
+        ut.setChoices("Leap off", "goblinAttack",
+                "Attack", "goblinDown", "", "", "", "");
+        if (Objects.equals(player.weapon.name, "Short Bow")) {
+            ui.choice_2.setText("Attack");
+        } else
+            ui.choice_2.setVisible(false);
+    }
+
+    public void giantTree() {
+        vm.buttonVisibility(3);
+
+        ui.mainTextArea.setText("That Tree is really huge. When you look up you \n" +
+                "see a treehouse hidden high in branches. \n\n" +
+                "You cannot reach it without a rope.");
+
+        ut.setChoices("Go to the cave", "theCave",
+                "Go to the river", "river",
+                "Go to the meadow", "meadow",
+                "Climb up", "treeHouse");
+
+        //very clever simplified if statement
+        ui.choice_4.setVisible(player.rope);
+    }
+
+    public void treeHouse() {
+        vm.buttonVisibility(4);
+
+        ui.mainTextArea.setText("After a while you reached a tree house.\n" +
+                "It is long way down.\n" +
+                "The view from here is amazing. \nYou see a windmill a few miles away.\n\n" +
+                " In this tiny house is nothing but the desk, bed and chest ");
+
+        ut.setChoices("Look at the desk", "theLetter",
+                "Open the chest", "theChest",
+                "Go down", "giantTree",
+                "Go to the windmill", "theWindmill");
+    }
+
+    public void theLetter() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText(" Dear Sam,\n" +
+                "I know that I was supposed to wait for you " +
+                "and don't go anywhere until you come back.\n" +
+                "But my wound is going over and over to be worse. I think " +
+                "I can't wait longer. I'm going to visit my \n" +
+                "uncle in windmill north from here and take some medicines " +
+                "from him. A bow is under bed");
+
+
+        ut.setChoices("Look under the bed", "bed",
+                "<", "treeHouse", "", "", "", "");
+    }
+
+    public void bed() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText("You have found a Short Bow!");
+        player.weapon = new Weapon_ShortBow(true);
+        player.update();
+
+        ut.setChoices();
+        ui.choice_1.setText("<"); nextPosition1 = "theLetter";
+
+    }
+
+
 }
