@@ -85,7 +85,7 @@ public class Story{
         if(player.ghoulTrophy){
             ui.choice_4.setVisible(true);
             ui.choice_4.setText("I have Ghoul's head.");
-            nextPosition4 = "";
+//            nextPosition4 = "";
         }
     }
 
@@ -311,8 +311,8 @@ public class Story{
         player.weapon = new Weapon_ShortBow(true);
         player.update();
 
-        ut.setChoices();
-        ui.choice_1.setText("<"); nextPosition1 = "theLetter";
+//        ut.setChoices();
+//        ui.choice_1.setText("<"); nextPosition1 = "theLetter";
 
     }
 
