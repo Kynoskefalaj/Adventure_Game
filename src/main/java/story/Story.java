@@ -66,6 +66,11 @@ public class Story{
             case "prayer": prayer(); break;
             case "tomb": tomb(); break;
             case "tombUnlock": tombUnlock(); break;
+            case "tomb1": tomb1(); break;
+            case "tomb2": tomb2(); break;
+            case "tomb3": tomb3(); break;
+            case "tomb4": tomb4(); break;
+            case "ghoul": ghoul(); break;
         }
     }
 
@@ -464,6 +469,58 @@ public class Story{
 
         ut.setChoices("Enter the tomb", "tomb",
                 "Go to the windmill", "theWindmill");
+    }
+
+    public void tomb1() {
+        vm.buttonVisibility(2);
+
+
+       ui.mainTextArea.setText("You stepped inside cold, dark tomb.\n" +
+                "You realised that you can't hear any noise from \ndown there.\n" +
+                "Maybe it is a good sign?\n\nRight?");
+
+       ut.setChoices("Go deeper", "tomb2",
+               "Return to cemetery", "theCemetery");
+    }
+
+    public void tomb2() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText("It is getting darker and darker.");
+
+        ut.setChoices("Go deeper", "tomb3",
+                "Return to cemetery", "theCemetery");
+    }
+
+    public void tomb3() {
+        vm.buttonVisibility(2);
+
+       ui.mainTextArea.setText("Your eyes vision is slowly adapting \n" +
+                "to that extreme darkness.");
+
+        ut.setChoices("Go deeper", "tomb4",
+                "Return to cemetery", "theCemetery");
+    }
+
+    public void tomb4() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText("On the end of dark corridor you noticed kind of...\n" +
+                " move... \n\n" +
+                "You see pale skin in the shadow.");
+
+        ut.setChoices("Check", "ghoul",
+                "Return to cemetery", "theCemetery");
+    }
+
+    public void ghoul() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
+                "You 've encountered a Ghoul!");
+
+        ut.setChoices("Attack", "ghoulAttack",
+                "Run", "theCemetery");
     }
 
 
