@@ -23,6 +23,8 @@ public class Story{
     Monster_Goblin goblin = new Monster_Goblin();
     Monster_Ghoul ghoul = new Monster_Ghoul();
 
+    boolean tombAvailable;
+
     public Story(Game game, UI ui, Player player, VisibilityManager vm, root.Utils ut){
         this.g = game;
         this.ui = ui;
@@ -54,8 +56,16 @@ public class Story{
             case "treeHouse": treeHouse(); break;
             case "theLetter": theLetter(); break;
             case "bed": bed(); break;
-            case "theChest": break;
-            case "theWindmill": break;
+            case "theChest": theChest(); break;
+            case "chestOpen": chestOpen(); break;
+            case "theWindmill": theWindmill(); break;
+            case "insideTheWindmill": insideTheWindmill(); break;
+            case "theCorpse": theCorpse(); break;
+            case "theCemetery": theCemetery(); break;
+            case "theGrave": theGrave(); break;
+            case "prayer": prayer(); break;
+            case "tomb": tomb(); break;
+            case "tombUnlock": tombUnlock(); break;
         }
     }
 
@@ -338,6 +348,122 @@ public class Story{
                 "You have got nice and robust leather armor.");
 
         ut.setChoices("<", "treeHouse");
+    }
+
+    public void theWindmill() {
+        vm.buttonVisibility(4);
+
+       ui.mainTextArea.setText("After few hours you reached Windmill.\n" +
+                "You see something here is wrong. \n\n" +
+                "The doors leading to the mill are open...");
+
+       ut.setChoices("Go in", "insideTheWindmill",
+               "Go back to the cave", "the cave",
+               "Return to the giant tree", "giantTree",
+               "Return to the meadow", "meadow");
+    }
+
+    public void insideTheWindmill() {
+        vm.buttonVisibility(3);
+
+       ui.mainTextArea.setText("The view inside is horrible. Everything is in total mess.\n" +
+                " You found ripped off upper part of human corpse. \n" +
+                "Everything is in blood, but you clearly noticed there \n" +
+                "is a track of blood leading outside by rear exit. ");
+
+       ut.setChoices("Check the corpse", "theCorpse",
+               "Go after the track of blood", "theCemetery",
+               "Go back outside", "theWindmill");
+    }
+
+    public void theCorpse() {
+        vm.buttonVisibility(1);
+        player.key = true;
+
+        player.healthPotions = 7;
+
+        ui.mainTextArea.setText("It is total abomination..." +
+                "\n ... but you've found a key.\n\n" +
+                "And also " + player.healthPotions + " health potions.");
+
+        ut.setChoices("<", "theWindmill");
+    }
+
+    public void theCemetery() {
+        vm.buttonVisibility(4);
+
+        ui.mainTextArea.setText("Track of blood led you to creepy cemetery deep in the woods.\n\n " +
+                "There is a small shrine with priest statue. \n" +
+                "Behind the statue is tomb with marble doors." +
+                "It is getting late...\n\n" +
+                "You've noticed that one grave is dug up.");
+
+        ut.setChoices("Go to the tomb", "theTomb",
+                "Check the grave", "theGrave",
+                "Check the statue", "theShrine",
+                "Return to the mill", "theWindmill");
+    }
+
+    public void theGrave() {
+        vm.buttonVisibility(1);
+
+        ui.mainTextArea.setText("Here lies Edwyn Bones.\n\nRIP");
+
+        ut.setChoices("<", "theCemetery");
+    }
+
+    public void theShrine() {
+        vm.buttonVisibility(2);
+
+        ui.mainTextArea.setText("When you came closer to the shrine you see clearly that" +
+                "a priest represented by statue reach out his hand. His hand is the hand is arranged as " +
+                "if it is holding something. Something is missing here.");
+
+        ut.setChoices("<", "theCemetery",
+                "Pray", "prayer",
+                "Put a jewel in that hand", "tombUnlock");
+        ui.choice_3.setVisible(player.gem);
+    }
+
+    public void prayer() {
+        vm.buttonVisibility(1);
+
+        player.stamina = 20;
+        ui.mainTextArea.setText("Your prayer has been heard.\n" +
+                "Your stamina increases to " + player.stamina + " and Health Points as well!!!");
+
+        player.hp = player.stamina * 10;
+        player.update();
+
+        ut.setChoices("<", "theShrine");
+    }
+
+    public void tomb() {
+        vm.buttonVisibility(3);
+
+        ut.setChoices("Check the grave", "theGrave",
+                "Check the shrine", "theShrine",
+                "Return to the windmill", "theWindmill",
+                "Enter", "tomb1");
+        if (tombAvailable) {
+            ui.mainTextArea.setText("The doors opened with heavy noise.\n" +
+                    "You feel that something inside is dragging you there...");
+            ui.choice_4.setVisible(true);
+
+        } else {
+           ui.mainTextArea.setText("The doors won't budge.");
+        }
+    }
+
+    public void tombUnlock() {
+       vm.buttonVisibility(2);
+        tombAvailable = true;
+
+        ui.mainTextArea.setText("Eureka! When you put the gem inside priest's hand," +
+                "the doors leading to the Tomb opened.");
+
+        ut.setChoices("Enter the tomb", "tomb",
+                "Go to the windmill", "theWindmill");
     }
 
 

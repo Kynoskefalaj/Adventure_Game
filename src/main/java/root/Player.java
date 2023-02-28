@@ -8,6 +8,7 @@ import weapons.Weapon_Knife;
 public class Player {
     public boolean rope, key, leatherArmor, gem, ghoulTrophy;
     public int hp, power, protection, spirit, strength, stamina, coins;
+    public int healthPotions;
     public SuperWeapon weapon;
     public SuperArmor armor;
 
