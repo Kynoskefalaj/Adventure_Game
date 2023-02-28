@@ -5,7 +5,7 @@ import monsters.SuperMonster;
 public class Combat {
 
     UI ui;
-    SuperMonster monster;
+    public SuperMonster monster;
     Player player;
     int playerHP;
     int playerHit, monsterHit;

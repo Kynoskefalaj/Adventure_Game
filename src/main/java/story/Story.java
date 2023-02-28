@@ -47,10 +47,8 @@ public class Story{
             case "goblin": goblin(); break;
             case "goblinAttack": goblinAttack(); combat.aliveCheck(); break;
             case "playerAttacksGoblin": playerAttacksGoblin();
-                if (combat.monsterAliveCheck())
-                    break;
-                else
-                    goblinDown(); break;
+                if (combat.monsterAliveCheck()) break;
+                else goblinDown(); break;
             case "goblinDown": goblinDown(); break;
             case "giantRock": giantRock(); break;
             case "treeHouse": treeHouse(); break;
@@ -63,14 +61,24 @@ public class Story{
             case "theCorpse": theCorpse(); break;
             case "theCemetery": theCemetery(); break;
             case "theGrave": theGrave(); break;
+            case "theShrine": theShrine(); break;
             case "prayer": prayer(); break;
             case "tomb": tomb(); break;
             case "tombUnlock": tombUnlock(); break;
-            case "tomb1": tomb1(); break;
+            case "tomb1": if (ghoul.isAlive) tomb1();
+                else tombCompleted(); break;
             case "tomb2": tomb2(); break;
             case "tomb3": tomb3(); break;
             case "tomb4": tomb4(); break;
             case "ghoul": ghoul(); break;
+            case "ghoulAttack": ghoulAttack(); combat.aliveCheck(); break;
+            case "playerAttacksGhoul": playerAttacksGhoul();
+                if (combat.monsterAliveCheck()) break;
+                else ghoulDown(); break;
+            case "healthPotion": healthPotion(); break;
+            case "ghoulDecapitation": ghoulDecapitation(); break;
+            case "tombCompleted": tombCompleted(); break;
+            case "enterToTown": enterToTown(); break;
         }
     }
 
@@ -97,22 +105,18 @@ public class Story{
         ut.setChoices("Attack The Guard", "attackGuard",
                 "I'm new blacksmith's apprentice", "",
                 "Return to the crossroads", "crossroads",
-                "","");
-        if(player.ghoulTrophy){
-            ui.choice_4.setVisible(true);
-            ui.choice_4.setText("I have Ghoul's head.");
-//            nextPosition4 = "";
-        }
+                "I have Ghoul's head","enterToTown");
+        ui.choice_4.setVisible(player.ghoulTrophy);
     }
 
     public void attackGuard() {
         vm.buttonVisibility(4);
 
         Combat combat = new Combat(ui, player, townGuard);
-        combat.monsterHit();
+        int hit = combat.monsterHit();
 
         ut.setText(combat.monsterSound() + "\n\nThe guard dodges your attack and hit " +
-                "you back in the head causing " + combat.monsterHit() + " damage.");
+                "you back in the head causing " + hit + " damage.");
         combat.aliveCheck();
 
         ut.setChoices("Attack The Guard again", "attackGuard",
@@ -151,7 +155,7 @@ public class Story{
         ui.hudUpdate();
 
         //In the future add class Healing
-        if (player.hp != player.stamina) {
+        if (player.hp != player.stamina * 10) {
             ui.mainTextArea.setText("You came to the river bank and drink water by your hands.\n" +
                     "Your health is restored by " + restoredHP + ".");
         } else {
@@ -321,7 +325,7 @@ public class Story{
     }
 
     public void bed() {
-        vm.buttonVisibility(2);
+        vm.buttonVisibility(1);
 
         ui.mainTextArea.setText("You have found a Short Bow!");
         player.weapon = new Weapon_ShortBow(true);
@@ -403,7 +407,7 @@ public class Story{
                 "It is getting late...\n\n" +
                 "You've noticed that one grave is dug up.");
 
-        ut.setChoices("Go to the tomb", "theTomb",
+        ut.setChoices("Go to the tomb", "tomb",
                 "Check the grave", "theGrave",
                 "Check the statue", "theShrine",
                 "Return to the mill", "theWindmill");
@@ -439,6 +443,7 @@ public class Story{
 
         player.hp = player.stamina * 10;
         player.update();
+        ui.hudUpdate();
 
         ut.setChoices("<", "theShrine");
     }
@@ -516,11 +521,97 @@ public class Story{
     public void ghoul() {
         vm.buttonVisibility(2);
 
+        combat = new Combat(ui, player, ghoul);
         ui.mainTextArea.setText("AAAAAAAaaaaaaaaaaaaarrrrghhhhhhhhhhh!!!\n\n" +
                 "You 've encountered a Ghoul!");
 
         ut.setChoices("Attack", "ghoulAttack",
                 "Run", "theCemetery");
+    }
+
+    public void ghoulAttack() {
+        vm.buttonVisibility(3);
+
+        int hit = combat.monsterHit();
+
+        player.update();
+        ui.hudUpdate();
+
+        ui.mainTextArea.setText(combat.monsterSound() + "\n\nGhoul attacks you !!!\n\n" +
+                "You've lost " + hit + "health points.");
+
+        ut.setChoices("Attack", "playerAttacksGhoul",
+                "Use health potion", "Run");
+    }
+
+    public void playerAttacksGhoul() {
+        vm.buttonVisibility(3);
+        int hit = combat.playerHit();
+
+        ui.mainTextArea.setText("Ghoul HP: " + combat.monster.hp + "\n" +
+                "You attacked a Ghoul with your "
+                + player.weapon.name + "\n\n" +
+                "You've dealt " + hit + " damage to it.");
+
+        ut.setChoices("Attack", "ghoulAttack",
+                "Use health potion", "Run");
+    }
+
+    public void healthPotion() {
+        vm.buttonVisibility(2);
+
+        int healedHP = player.spirit * 3 + Math.abs(new java.util.Random().nextInt(player.spirit * 3));
+
+        player.hp += healedHP;
+        if(player.hp > player.stamina * 10){
+            player.hp = player.stamina * 10;
+        }
+        player.update();
+        player.healthPotions -= 1;
+
+
+       ui.mainTextArea.setText("You are using one of your health potions.\n\n" +
+                "You've healed " + healedHP + "health points.\n" +
+                "You have " + (player.healthPotions - 1) + " health potions left.");
+
+       ut.setChoices("Attack", "ghoulAttack",
+                "Use health potion", "Run");
+    }
+
+    public void ghoulDown() {
+        vm.buttonVisibility(3);
+
+        ghoul.isAlive = false;
+
+        ui.mainTextArea.setText("You did it!\n" +
+                "People from town will be grateful for that!\n\n" +
+                "You've looted 15 gold coins!");
+
+        player.coins += 15;
+
+
+        ut.setChoices("Cut off it's head", "ghoulDecapitation",
+                "Use health potion", "healthPotion",
+                "Exit", "tomb");
+    }
+
+    public void ghoulDecapitation() {
+        vm.buttonVisibility(1);
+        player.ghoulTrophy = true;
+
+        ui.mainTextArea.setText("You cut off head of that monster.\n" +
+                "Ghoul Trophy added to your inventory.");
+
+        ut.setChoices("Exit", "theCemetery");
+    }
+
+    public void tombCompleted() {
+        vm.buttonVisibility(1);
+
+        ui.mainTextArea.setText("You've eliminated the threat down there\n" +
+                "There is nothing else to do.");
+
+        ut.setChoices("Exit", "theCemetery");
     }
 
 
