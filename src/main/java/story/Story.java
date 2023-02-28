@@ -1,5 +1,6 @@
 package story;
 
+import armors.Armor_LeatherArmor;
 import monsters.Monster_Ghoul;
 import monsters.Monster_Goblin;
 import monsters.Monster_TownGuard;
@@ -251,7 +252,7 @@ public class Story{
         player.rope = true;
 
         ut.setChoices("Leap off", "goblinAttack",
-                "Attack", "goblinDown", "", "", "", "");
+                "Attack", "goblinDown");
         if (Objects.equals(player.weapon.name, "Short Bow")) {
             ui.choice_2.setText("Attack");
         } else
@@ -301,7 +302,7 @@ public class Story{
 
 
         ut.setChoices("Look under the bed", "bed",
-                "<", "treeHouse", "", "", "", "");
+                "<", "treeHouse");
     }
 
     public void bed() {
@@ -311,9 +312,32 @@ public class Story{
         player.weapon = new Weapon_ShortBow(true);
         player.update();
 
-//        ut.setChoices();
-//        ui.choice_1.setText("<"); nextPosition1 = "theLetter";
+        ut.setChoices("<", "theLetter");
+    }
 
+    public void theChest() {
+        vm.buttonVisibility(1);
+
+        ui.mainTextArea.setText("The chest is locked. You can't open it without \n" +
+                "a proper key.");
+
+        ut.setChoices("<", "treeHouse",
+                "Open", "chestOpen");
+
+        //visibility of button 2 is dependent on player key
+        ui.choice_2.setVisible(player.key);
+    }
+
+    public void chestOpen() {
+        vm.buttonVisibility(1);
+        player.armor = new Armor_LeatherArmor();
+        player.update();
+        ui.hudUpdate();
+
+        ui.mainTextArea.setText("You've opened the chest with a key from windmill!\n" +
+                "You have got nice and robust leather armor.");
+
+        ut.setChoices("<", "treeHouse");
     }
 
 

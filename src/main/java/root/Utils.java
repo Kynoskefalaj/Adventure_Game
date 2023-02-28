@@ -8,6 +8,24 @@ public class Utils {
         this.game = game;
     }
 
+    public void setChoices(String text1, String next1){
+        ui.choice_1.setText(text1); game.nextPosition[0] = next1;
+    }
+
+    public void setChoices(String text1, String next1,
+                           String text2, String next2){
+        ui.choice_1.setText(text1); game.nextPosition[0] = next1;
+        ui.choice_2.setText(text2); game.nextPosition[1] = next2;
+    }
+
+    public void setChoices(String text1, String next1,
+                           String text2, String next2,
+                           String text3, String next3){
+        ui.choice_1.setText(text1); game.nextPosition[0] = next1;
+        ui.choice_2.setText(text2); game.nextPosition[1] = next2;
+        ui.choice_3.setText(text3); game.nextPosition[2] = next3;
+    }
+
     public void setChoices(String text1, String next1,
                            String text2, String next2,
                            String text3, String next3,
