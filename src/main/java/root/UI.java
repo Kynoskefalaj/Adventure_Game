@@ -7,6 +7,7 @@ public class UI {
 
     public Game game;
     public Player player;
+
     public JFrame mainWindow;
     public Container con;
     public JPanel titlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel,

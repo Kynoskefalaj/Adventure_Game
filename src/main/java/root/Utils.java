@@ -3,6 +3,7 @@ package root;
 public class Utils {
     UI ui;
     Game game;
+
     Utils(UI ui, Game game){
         this.ui = ui;
         this.game = game;

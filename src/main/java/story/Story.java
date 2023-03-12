@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Story{
     Game g;
     UI ui;
-    root.Utils ut;
+    Utils ut;
     Player player;
     VisibilityManager vm;
     Combat combat;
