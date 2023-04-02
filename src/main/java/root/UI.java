@@ -93,6 +93,7 @@ public class UI {
         mainTextArea.setForeground(Color.white);
         mainTextArea.setFont(normalFont);
         mainTextArea.setLineWrap(true);
+        mainTextArea.setEditable(false);
         mainTextPanel.add(mainTextArea);
 
         //next choice button panel is to set up
