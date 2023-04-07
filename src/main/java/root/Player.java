@@ -22,7 +22,6 @@ public class Player {
 
 
         weapon = new Weapon_Knife(true);
-//        weapon.equipped(true);
 
         armor = new Armor_WornJacket();
         armor.equipped(true);

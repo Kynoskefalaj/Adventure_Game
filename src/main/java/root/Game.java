@@ -1,9 +1,5 @@
 package root;
 
-import monsters.Monster_Ghoul;
-import monsters.Monster_Goblin;
-import monsters.Monster_TownGuard;
-import monsters.SuperMonster;
 import story.Story;
 
 import java.awt.event.ActionEvent;

@@ -37,14 +37,6 @@ public class Utils {
         ui.choice_4.setText(text4); game.nextPosition[3] = next4;
     }
 
-    public String[] setPositions(String first, String second, String third, String fourth){
-        game.nextPosition[0] = first;
-        game.nextPosition[1] = second;
-        game.nextPosition[2] = third;
-        game.nextPosition[3] = fourth;
-        return game.nextPosition;
-    }
-
     public void setText(String text){
         ui.mainTextArea.setText(text);
     }
